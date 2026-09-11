@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>안은호 | About Me</title>
+<style>
+:root {
+  --ink: #0f172a;
+  --muted: #475569;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --primary: #0d9488;
+  --primary-light: #ccfbf1;
+  --line: #e2e8f0;
+}
+
+/* 스크롤바 생성/소멸 시 레이아웃 텍스트 밀림 방지 */
+html {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+
+/* Header */
+header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(248, 250, 252, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+nav {
+  max-width: 1100px; margin: auto; padding: 16px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.logo { font-size: 21px; font-weight: 900; letter-spacing: -0.02em; }
+.logo b { color: var(--primary); }
+.menu { display: flex; gap: 24px; list-style: none; font-size: 15px; font-weight: 700; }
+.menu a { color: var(--muted); transition: color 0.2s; }
+.menu a:hover, .menu a:focus { color: var(--primary); }
+
+/* Main Section Layout */
+section { max-width: 1100px; margin: auto; padding: 50px 24px; }
+
+/* Hero Section */
+.hero { min-height: 35vh; display: flex; flex-direction: column; justify-content: center; padding-top: 20px; }
+.hello {
+  display: inline-block; background: var(--primary-light); color: #0f766e;
+  padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 800;
+  margin-bottom: 12px; width: fit-content; border: 1px solid rgba(13, 148, 136, 0.2);
+}
+.hero h1 { font-size: clamp(32px, 4.5vw, 52px); line-height: 1.25; letter-spacing: -.03em; margin-bottom: 16px; }
+.hero h1 span { color: var(--primary); }
+.hero p { max-width: 750px; color: var(--muted); font-size: 16px; margin-bottom: 20px; }
+.purpose-box { background: #fff; border: 1px solid var(--line); padding: 14px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 16px; }
+
+/* Title Hierarchy */
+.title { margin-bottom: 20px; }
+.eyebrow { font-size: 13px; font-weight: 800; letter-spacing: .12em; color: var(--primary); text-transform: uppercase; }
+.title h2 { font-size: 28px; letter-spacing: -.03em; margin-top: 4px; }
+
+/* Cards & Grid */
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card:hover, .card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(13, 148, 136, 0.08);
+  border-color: var(--primary);
+}
+.card h3 { font-size: 18px; margin-bottom: 12px; color: var(--ink); }
+.card p { color: var(--muted); font-size: 14px; margin-bottom: 6px; word-break: keep-all; }
+.card p:last-child { margin-bottom: 0; }
+
+/* Section 01: About Me */
+.about-box { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+.about-box p { font-size: 15px; color: var(--ink); margin-bottom: 12px; }
+.traits { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+.trait-btn {
+  background: var(--primary-light); color: #0f766e;
+  border: 1px solid rgba(13, 148, 136, 0.2);
+  padding: 8px 16px; border-radius: 12px; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s ease; user-select: none;
+}
+.trait-btn:hover, .trait-btn:focus {
+  background: var(--primary); color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 148, 136, 0.2);
+}
+
+/* Section 02: Likes */
+.likes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+/* Section 03: History */
+.history { background: var(--white); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.history-item { border-bottom: 1px solid var(--line); }
+.history-item:last-child { border: 0; }
+.history-item[open] { background: #f0fdf4; }
+
+.history-item summary {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px; cursor: pointer; font-weight: 700; list-style: none;
+}
+.history-item summary::-webkit-details-marker { display: none; }
+.history-header { display: flex; align-items: center; gap: 18px; }
+.year { font-weight: 900; color: var(--primary); min-width: 50px; font-size: 17px; }
+.history-title { font-size: 16px; color: var(--ink); }
+
+.toggle-icon {
+  width: 28px; height: 28px; border-radius: 50%; background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: var(--muted); transition: transform 0.3s ease;
+  border: 1px solid var(--line);
+}
+.history-item[open] .toggle-icon { transform: rotate(45deg); background: var(--primary); color: #fff; }
+
+.history-body { padding: 0 24px 20px 92px; color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+/* Section 04: Learning */
+.learning-subtext {
+  font-size: 16px;
+  color: var(--muted);
+  font-weight: 600;
+  margin-top: -8px;
+  margin-bottom: 20px;
+}
+.learning-card {
+  width: 100%;
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+.skill {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+.skill::before {
+  content: "✓";
+  color: var(--primary);
+  font-weight: 900;
+  margin-right: 12px;
+  font-size: 16px;
+}
+.skill:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+/* Section 05: Contact Me */
+.contact-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.contact-card {
+  background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 20px 24px;
+  display: flex; flex-direction: column; justify-content: space-between; min-height: 110px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.contact-card:hover, .contact-card:focus { transform: translateY(-4px); border-color: var(--primary); }
+.contact-card small { font-weight: 800; color: var(--primary); letter-spacing: .05em; margin-bottom: 6px; display: block; }
+.contact-card strong { font-size: 15px; word-break: break-all; }
+
+/* ★ 정보 공개/비공개 여부 표기 영역 (요구사항 반영) */
+.privacy-notice {
+  margin-top: 36px;
+  padding: 14px 18px;
+  background: rgba(226, 232, 240, 0.4);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.privacy-notice p { margin-bottom: 2px; }
+.privacy-notice p:last-child { margin-bottom: 0; }
+.privacy-notice strong { color: var(--ink); }
+
+/* Footer */
+footer { text-align: center; border-top: 1px solid var(--line); padding: 24px; color: var(--muted); font-size: 13px; }
+
+/* Modal / Popup */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 1000;
+  opacity: 0; visibility: hidden; transition: opacity 0.25s ease, visibility 0.25s ease;
+  padding: 20px;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+  background: #fff; width: 100%; max-width: 480px;
+  border-radius: 20px; padding: 28px; position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12); border: 1px solid var(--line);
+  transform: scale(0.95); transition: transform 0.25s ease;
+}
+.modal-overlay.active .modal-content { transform: scale(1); }
+.modal-close {
+  position: absolute; top: 20px; right: 20px; background: var(--bg); border: none;
+  width: 32px; height: 32px; border-radius: 50%; font-size: 16px; color: var(--muted);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: #e2e8f0; color: var(--ink); }
+.modal-header { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.modal-tag { background: var(--primary-light); color: #0f766e; padding: 4px 12px; border-radius: 12px; font-size: 13px; font-weight: 800; }
+.modal-body { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+/* 모션 감수 설정 */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}
+
+@media(max-width: 768px) {
+  .likes-grid, .contact-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .history-body { padding-left: 24px; margin-top: 10px; }
+  section { padding: 40px 18px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a class="logo" href="#home">EUNHO<b>.</b></a>
+    <ul class="menu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#likes">Likes</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#skills">Learning</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <span class="hello">HELLO, NICE TO MEET YOU!</span>
+    <h1>안녕하세요,<br><span>안은호</span>입니다.</h1>
+    <div class="purpose-box">
+      📌 [페이지 목적] 본 페이지는 채용 담당자 및 동료에게 안은호의 핵심 강점과 경험, 취향을 전달하여 협업 기회를 형성하기 위해 작성되었습니다.
+    </div>
+    <p>새로운 것을 알아가는 걸 좋아하고, 궁금한 게 생기면 직접 찾아보는 사람입니다. 공부도 하고, 여행도 하며 좋아하는 것들을 늘려가고 있습니다.</p>
+  </section>
+
+  <!-- 01. ABOUT ME -->
+  <section id="about">
+    <div class="title">
+      <div class="eyebrow">01 · About me</div>
+      <h2>저를 소개합니다</h2>
+    </div>
+    <div class="about-box">
+      <p><strong>강점: 빠른 적응력 & 긍정적인 태도</strong></p>
+      <p>새로운 환경이나 업무에 투입되었을 때 흐름을 빠르게 파악하고 적응하는 편입니다. 예상치 못한 어려움이나 유리하지 않은 상황에 직면하더라도 당황하지 않고 긍정적으로 문제를 정의하여 상황을 개선할 수 있는 실질적인 대안을 찾아 실행합니다.</p>
+      <div class="traits">
+        <button class="trait-btn" onclick="openModal('끈기')">#끈기 💡</button>
+        <button class="trait-btn" onclick="openModal('빠른적응력')">#빠른적응력 💡</button>
+        <button class="trait-btn" onclick="openModal('긍정적태도')">#긍정적태도 💡</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02. LIKES -->
+  <section id="likes">
+    <div class="title">
+      <div class="eyebrow">02 · My life</div>
+      <h2>제가 좋아하는 것들 (취향)</h2>
+    </div>
+    <div class="likes-grid">
+      <article class="card">
+        <h3>🎧 음악</h3>
+        <p><strong>상황:</strong> 일과 후 리프레싱이 필요한 때</p>
+        <p><strong>행동:</strong> 기분에 맞는 플레이리스트를 들으며 휴식</p>
+        <p><strong>결과:</strong> 스트레스 감소 및 집중력 회복</p>
+      </article>
+      <article class="card">
+        <h3>☕ 카페 & 산책</h3>
+        <p><strong>상황:</strong> 생각이 복잡하거나 정리가 필요한 때</p>
+        <p><strong>행동:</strong> 친구와 커피를 마시며 동네를 천천히 산책</p>
+        <p><strong>결과:</strong> 아이디어 정돈 및 차분한 마음 유지</p>
+      </article>
+      <article class="card">
+        <h3>✈️ 여행</h3>
+        <p><strong>상황:</strong> 낯선 장소로 떠나기 전 준비 단계</p>
+        <p><strong>행동:</strong> 미리 지역을 공부하고 일정 계획을 수립 및 실행</p>
+        <p><strong>결과:</strong> 계획의 90% 이상 완수하며 다채로운 경험 축적</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- 03. HISTORY -->
+  <section id="history">
+    <div class="title">
+      <div class="eyebrow">03 · History</div>
+      <h2>저의 기록</h2>
+    </div>
+    <div class="history">
+      <details class="history-item">
+        <summary>
+          <div class="history-header">
+            <span class="year">2015</span>
+            <strong class="history-title">대학교 입학</strong>
+          </div>
+          <span class="toggle-icon">＋</span>
+        </summary>
+        <div class="history-body">
+          <strong>상황 및 행동:</strong> 전공 공부와 함께 다양한 스터디 활동에 참여했습니다.<br>
+          <strong>결과:</strong> 기초 학문 역량을 다지고 다방면의 협업 태도를 길렀습니다.
+        </div>
+      </details>
+
+      <details class="history-item">
+        <summary>
+          <div class="history-header">
+            <span class="year">2021</span>
+            <strong class="history-title">직무 전환 후 IDC 입사</strong>
+          </div>
+          <span class="toggle-icon">＋</span>
+        </summary>
+        <div class="history-body">
+          <strong>상황 및 행동:</strong> 직무 전환 후 IDC 데이터센터 기반 업무에 투입되어 매뉴얼과 운영 체계를 신속히 숙지했습니다.<br>
+          <strong>결과:</strong> 시스템 모니터링 및 실무 운용 프로세스에 빠르게 적응하여 안정적으로 직무를 수행했습니다.
+        </div>
+      </details>
+
+      <details class="history-item">
+        <summary>
+          <div class="history-header">
+            <span class="year">2025</span>
+            <strong class="history-title">새로운 세계로 도전</strong>
+          </div>
+          <span class="toggle-icon">＋</span>
+        </summary>
+        <div class="history-body">
+          <strong>상황 및 행동:</strong> 더 높은 전문성을 쌓고자 IT 자격증 취득 및 신기술 공부를 지속했습니다.<br>
+          <strong>결과:</strong> 자기계발 능력을 고도화하고 영역을 꾸준히 확장해 나가고 있습니다.
+        </div>
+      </details>
+
+      <details class="history-item">
+        <summary>
+          <div class="history-header">
+            <span class="year">2026</span>
+            <strong class="history-title">SKT ALEPH 수강</strong>
+          </div>
+          <span class="toggle-icon">＋</span>
+        </summary>
+        <div class="history-body">
+          <strong>상황 및 행동:</strong> SKT ALEPH 교육 과정에 참여하여 최신 기술 역량 강화 및 프로젝트 중심 실무 학습을 이수 중입니다.<br>
+          <strong>결과:</strong> 전문적인 실무 역량을 다지고 체계적인 포트폴리오를 구축해 나가고 있습니다.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 04. LEARNING -->
+  <section id="skills">
+    <div class="title">
+      <div class="eyebrow">04 · Learning</div>
+      <h2>배우고 있는 것 (강점: 끈기)</h2>
+    </div>
+    <p class="learning-subtext">지속적으로 자기 역량을 늘리고 싶어하는 사람입니다!</p>
+    
+    <article class="card learning-card">
+      <h3>취득 및 목표 자격증</h3>
+      <div class="skills-grid">
+        <div class="skill">컴퓨터활용능력</div>
+        <div class="skill">정보처리기사</div>
+        <div class="skill">네트워크 관리사</div>
+        <div class="skill">ADsP 데이터분석 준전문가</div>
+        <div class="skill">정보보안기사</div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 05. CONTACT ME -->
+  <section id="contact">
+    <div class="title">
+      <div class="eyebrow">05 · Contact me</div>
+      <h2>연락하고 싶다면</h2>
+    </div>
+    <div class="contact-grid">
+      <a class="contact-card" href="https://github.com/" target="_blank" rel="noopener">
+        <small>GITHUB</small>
+        <strong>github.com/username</strong>
+      </a>
+      <a class="contact-card" href="mailto:ddh 02@gmail.com">
+        <small>EMAIL</small>
+        <strong>hello@example.com</strong>
+      </a>
+      <a class="contact-card" href="#home">
+        <small>NAME</small>
+        <strong>안은호 (Eunho Ahn)</strong>
+      </a>
+    </div>
+
+    <!-- ★ 공개/비공개 정보안내 박스 (요구사항 반영) -->
+    <div class="privacy-notice">
+      <p><strong>해당 페이지에서 공개되어 있는 정보:</strong> 이메일 주소, 깃허브 주소, 이름</p>
+      <p><strong>공개되지 않은 정보:</strong> 전화번호, 자세한 경력사항, 집 주소</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  © 2026 EUNHO. All rights reserved.
+</footer>
+
+<!-- 팝업 모달 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnBg(event)">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()" aria-label="닫기">✕</button>
+    <div class="modal-header">
+      <span class="modal-tag" id="modalTag">#키워드</span>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const modalData = {
+  '끈기': {
+    title: '#끈기',
+    content: `
+      <p style="margin-bottom: 12px;"><strong>상황:</strong> 매일 새로운 기술을 익히거나 자격증을 준비할 때</p>
+      <p style="margin-bottom: 12px;"><strong>행동:</strong> 중간에 포기하지 않고 매일 일정 시간을 정해 꾸준히 학습을 이어갑니다.</p>
+      <p><strong>결과:</strong> 목표했던 자격증 취득과 실무 역량 강화를 꾸준히 이뤄내고 있습니다.</p>
+    `
+  },
+  '빠른적응력': {
+    title: '#빠른적응력',
+    content: `
+      <p style="margin-bottom: 12px;"><strong>상황:</strong> 새로운 조직이나 생소한 IT 시스템 업무 환경에 투입되었을 때</p>
+      <p style="margin-bottom: 12px;"><strong>행동:</strong> 기존 매뉴얼과 운영 프로세스를 신속히 파악하고 주도적으로 질문하며 숙지합니다.</p>
+      <p><strong>결과:</strong> 최단 시간 내에 오류 없이 안정적으로 실무에 적응합니다.</p>
+    `
+  },
+  '긍정적태도': {
+    title: '#긍정적태도',
+    content: `
+      <p style="margin-bottom: 12px;"><strong>상황:</strong> 프로젝트 도중 예상치 못한 문제가 발생하거나 어려운 문제에 직면했을 때</p>
+      <p style="margin-bottom: 12px;"><strong>행동:</strong> 당황하기보다 대안을 먼저 찾아보고 팀원들과 적극적으로 소통합니다.</p>
+      <p><strong>결과:</strong> 리스크를 효과적으로 해결하고 원활한 협업 분위기를 만듭니다.</p>
+    `
+  }
+};
+
+function openModal(keyword) {
+  const overlay = document.getElementById('modalOverlay');
+  const tag = document.getElementById('modalTag');
+  const body = document.getElementById('modalBody');
+
+  if (modalData[keyword]) {
+    tag.innerText = modalData[keyword].title;
+    body.innerHTML = modalData[keyword].content;
+  }
+
+  overlay.classList.add('active');
+}
+
+function closeModal() {
+  const overlay = document.getElementById('modalOverlay');
+  overlay.classList.remove('active');
+}
+
+function closeModalOnBg(event) {
+  if (event.target.id === 'modalOverlay') {
+    closeModal();
+  }
+}
+
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+
+</body>
+</html>
