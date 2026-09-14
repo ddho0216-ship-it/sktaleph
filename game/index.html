@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>30초 집중 클릭</title>
+<style>
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Arial, "Noto Sans KR", sans-serif;
+    background: #f5f8fa;
+    color: #263238;
+  }
+
+  .wrap {
+    width: min(900px, 92vw);
+    margin: 40px auto;
+  }
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: 32px;
+  }
+
+  .desc {
+    color: #607d8b;
+    margin-bottom: 24px;
+  }
+
+  .panel {
+    background: white;
+    border: 1px solid #d7e1e6;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.05);
+  }
+
+  .top {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .stat {
+    background: #eef5f7;
+    border-radius: 10px;
+    padding: 10px 14px;
+    min-width: 100px;
+  }
+
+  .stat strong {
+    display: block;
+    font-size: 12px;
+    color: #78909c;
+    margin-bottom: 3px;
+  }
+
+  .stat span {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  select, button {
+    border: 1px solid #b9cbd3;
+    border-radius: 9px;
+    background: white;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #f1f6f8;
+  }
+
+  #startBtn {
+    margin-left: auto;
+    background: #2f6f7e;
+    color: white;
+    border-color: #2f6f7e;
+    font-weight: bold;
+  }
+
+  #game {
+    position: relative;
+    height: 500px;
+    border: 2px solid #c8d8de;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fbfdfe;
+  }
+
+  #message {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: #78909c;
+    font-size: 18px;
+    text-align: center;
+    padding: 20px;
+    pointer-events: none;
+  }
+
+  #target {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 0;
+    background: #4f8ea0;
+    box-shadow: 0 3px 8px rgba(0,0,0,.15);
+    display: none;
+    cursor: pointer;
+  }
+
+  #target:active {
+    transform: scale(.92);
+  }
+
+  .result {
+    margin-top: 18px;
+    padding: 16px;
+    background: #f7fafb;
+    border-radius: 10px;
+    display: none;
+  }
+
+  .result strong {
+    font-size: 22px;
+  }
+
+  .help {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #78909c;
+  }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+  <h1>30초 집중 클릭</h1>
+  <div class="desc">
+    30초 동안 나타나는 원을 최대한 많이 클릭해 보세요.
+  </div>
+
+  <div class="panel">
+    <div class="top">
+      <div class="stat">
+        <strong>남은 시간</strong>
+        <span id="time">30</span>초
+      </div>
+
+      <div class="stat">
+        <strong>점수</strong>
+        <span id="score">0</span>
+      </div>
+
+      <label>
+        난이도
+        <select id="difficulty">
+          <option value="easy">쉬움</option>
+          <option value="hard">어려움</option>
+        </select>
+      </label>
+
+      <button id="startBtn">게임 시작</button>
+    </div>
+
+    <div id="game">
+      <div id="message">
+        <div>
+          <strong>게임 시작</strong><br>
+          화면에 나타나는 원을 클릭하세요.
+        </div>
+      </div>
+      <button id="target" aria-label="클릭 타겟"></button>
+    </div>
+
+    <div id="result" class="result">
+      <div>게임 종료!</div>
+      <strong id="finalScore">0점</strong>
+      <div id="resultText"></div>
+    </div>
+
+    <div class="help">
+      ※ 현재 버전은 기본 게임 구조를 보여주기 위한 첫 번째 버전입니다.
+    </div>
+  </div>
+</div>
+
+<script>
+const game = document.getElementById("game");
+const target = document.getElementById("target");
+const startBtn = document.getElementById("startBtn");
+const difficulty = document.getElementById("difficulty");
+
+const timeEl = document.getElementById("time");
+const scoreEl = document.getElementById("score");
+const message = document.getElementById("message");
+const result = document.getElementById("result");
+const finalScore = document.getElementById("finalScore");
+const resultText = document.getElementById("resultText");
+
+let timeLeft = 30;
+let score = 0;
+let timer = null;
+let playing = false;
+
+const settings = {
+  easy: {
+    size: 58,
+    color: "#4f8ea0"
+  },
+  hard: {
+    size: 38,
+    color: "#6d6475"
+  }
+};
+
+function moveTarget() {
+  const setting = settings[difficulty.value];
+
+  target.style.width = setting.size + "px";
+  target.style.height = setting.size + "px";
+  target.style.background = setting.color;
+
+  const maxX = game.clientWidth - setting.size;
+  const maxY = game.clientHeight - setting.size;
+
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  target.style.left = x + "px";
+  target.style.top = y + "px";
+}
+
+function startGame() {
+  clearInterval(timer);
+
+  timeLeft = 30;
+  score = 0;
+  playing = true;
+
+  timeEl.textContent = timeLeft;
+  scoreEl.textContent = score;
+
+  result.style.display = "none";
+  message.style.display = "none";
+  target.style.display = "block";
+  startBtn.textContent = "다시 시작";
+
+  moveTarget();
+
+  timer = setInterval(() => {
+    timeLeft--;
+    timeEl.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      endGame();
+    }
+  }, 1000);
+}
+
+function endGame() {
+  clearInterval(timer);
+  playing = false;
+
+  target.style.display = "none";
+  message.style.display = "grid";
+
+  finalScore.textContent = score + "점";
+  resultText.textContent =
+    "30초 동안 총 " + score + "개의 타겟을 클릭했습니다.";
+
+  result.style.display = "block";
+  startBtn.textContent = "다시 시작";
+}
+
+target.addEventListener("click", (event) => {
+  event.stopPropagation();
+
+  if (!playing) return;
+
+  score++;
+  scoreEl.textContent = score;
+  moveTarget();
+});
+
+startBtn.addEventListener("click", startGame);
+
+difficulty.addEventListener("change", () => {
+  if (!playing) return;
+  moveTarget();
+});
+</script>
+</body>
+</html>
