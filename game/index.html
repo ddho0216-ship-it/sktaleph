@@ -3,301 +3,423 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>30초 집중 클릭</title>
+<title>30초 토끼 잡기</title>
 <style>
-  * { box-sizing: border-box; }
+*{box-sizing:border-box}
+:root{
+  --ink:#4b3d46; --muted:#8b7782; --line:#ead7df;
+  --main:#d77c9c; --main2:#eda8bd; --soft:#fff0f5;
+  --accent:#efb06f; --bg:#fff8fa;
+}
+body{
+  margin:0; min-height:100vh; color:var(--ink);
+  font-family:Arial,"Noto Sans KR",sans-serif;
+  background:
+    radial-gradient(circle at 10% 10%,rgba(255,255,255,.95) 0 70px,transparent 72px),
+    radial-gradient(circle at 88% 18%,rgba(255,255,255,.8) 0 95px,transparent 97px),
+    linear-gradient(145deg,#f4faf9 0%,#f7f6f2 48%,#edf5f6 100%);
+}
+button,select,input{font:inherit}
+.wrap{width:min(1180px,94vw);margin:30px auto 46px}
+.header{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin-bottom:18px}
+h1{margin:0;font-size:31px;letter-spacing:-1.5px}
+.subtitle{margin:7px 0 0;color:var(--muted);font-size:14px}
+.badge{padding:9px 13px;border-radius:999px;background:#fde8f0;color:#a85876;font-size:12px;white-space:nowrap}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px}
+.card{background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:18px;box-shadow:0 7px 24px rgba(50,80,90,.07)}
+.main{padding:18px}
+.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+.stat{min-width:102px;padding:9px 13px;border-radius:11px;background:var(--soft)}
+.stat small{display:block;color:var(--muted);font-size:11px;margin-bottom:2px}
+.stat strong{font-size:20px}
+label{font-size:13px;color:#536b75}
+select,input{border:1px solid #bfd1d7;border-radius:9px;background:white;padding:9px 11px;color:var(--ink)}
+.btn{border:1px solid #b8cdd3;border-radius:10px;padding:9px 14px;background:white;color:var(--ink);cursor:pointer}
+.btn:hover{background:#f2f7f8}
+.primary{background:var(--main);color:white;border-color:var(--main);font-weight:700}
+.primary:hover{background:#c9688a}
+.switches{display:flex;gap:12px;align-items:center;margin-left:auto;font-size:12px;color:#657b84}
+.switches label{display:flex;align-items:center;gap:5px;cursor:pointer}
+.game{
+  position:relative;height:510px;overflow:hidden;border-radius:15px;
+  border:2px solid #cfe0e4;
+  background:
+    radial-gradient(circle at 13% 17%,rgba(255,255,255,.82) 0 42px,transparent 44px),
+    radial-gradient(circle at 78% 12%,rgba(255,255,255,.72) 0 55px,transparent 57px),
+    radial-gradient(circle at 50% 82%,rgba(255,255,255,.22) 0 90px,transparent 92px),
+    linear-gradient(180deg,#dff3df 0%,#eaf7df 56%,#b8d99d 57%,#9fc982 100%);
+}
+.game:before,.game:after{content:"";position:absolute;pointer-events:none}
+.game:before{
+  width:240px;height:90px;right:-35px;bottom:65px;border-radius:50%;
+  background:rgba(79,132,74,.15);transform:rotate(-7deg);
+}
+.game:after{
+  width:300px;height:55px;left:-80px;bottom:42px;border-radius:50%;
+  background:rgba(79,132,74,.13);transform:rotate(5deg);
+}
+.hud{
+  position:absolute;left:14px;right:14px;top:13px;z-index:5;
+  display:flex;justify-content:space-between;pointer-events:none;
+}
+.hud span{background:rgba(255,255,255,.78);backdrop-filter:blur(5px);border:1px solid rgba(180,205,211,.7);border-radius:999px;padding:7px 11px;font-size:12px}
+#message{
+  position:absolute;inset:0;display:grid;place-items:center;text-align:center;
+  z-index:3;color:#657b84;pointer-events:none
+}
+#message .box{padding:20px 26px;background:rgba(255,255,255,.72);border:1px solid rgba(205,222,226,.8);border-radius:15px}
+#message b{font-size:19px;color:#486672}
+.target{
+  position:absolute;z-index:4;width:76px;height:76px;border:0;padding:0;background:transparent;
+  display:none;cursor:pointer;filter:drop-shadow(0 7px 5px rgba(60,80,75,.16));
+  transition:left .12s ease,top .12s ease;
+}
+.target.reduced{animation:none!important}
+.target.bounce{animation:bunnyBounce .48s ease-in-out infinite alternate}
+@keyframes bunnyBounce{from{transform:translateY(1px) rotate(-2deg)}to{transform:translateY(-7px) rotate(2deg)}}
+.bunny{width:100%;height:100%;display:block}
+.bunny .sil{fill:#f39ab8}
+.bunny .ear2{opacity:.9}
+.target:active{transform:scale(.91)!important}
+.result{display:none;margin-top:14px;padding:14px 16px;border-radius:12px;background:#f4f8f7;border:1px solid #d9e6e7}
+.result b{font-size:21px}
+.result span{color:var(--muted);font-size:13px;margin-left:7px}
+.side{padding:18px}
+.side h2{font-size:17px;margin:0 0 5px}
+.side .hint{font-size:12px;color:var(--muted);margin:0 0 14px}
+.record-form{display:grid;grid-template-columns:minmax(0,1fr) 68px;gap:7px;margin-bottom:13px;align-items:stretch}
+.record-form input{width:100%;height:40px}
+.record-form .btn{height:40px;padding:0;text-align:center}
+.records{max-height:360px;overflow:auto;border-top:1px solid var(--line)}
+.record{display:flex;justify-content:space-between;gap:10px;padding:10px 2px;border-bottom:1px solid #edf2f3;font-size:13px}
+.record .name{font-weight:700}
+.record small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.record .score{font-weight:700;color:#4e7d87;white-space:nowrap}
+.empty{padding:20px 0;text-align:center;color:#9aaab0;font-size:12px}
+.clear{width:100%;margin-top:12px}
+.info{margin-top:18px;padding:16px 18px}
+.info h3{font-size:14px;margin:0 0 8px}
+.info p{margin:4px 0;color:#667d86;font-size:12px;line-height:1.7}
+.testbox{margin-top:12px;padding:13px 14px;background:#fff0f5;border:1px solid #efb5c9;border-radius:10px;box-shadow:0 2px 8px rgba(190,100,130,.08)}
+.testbox h3{color:#b45778}
+.testbox p{color:#745d68!important}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.side{order:2}.switches{margin-left:0}.game{height:440px}}
 
-  body {
-    margin: 0;
-    font-family: Arial, "Noto Sans KR", sans-serif;
-    background: #f5f8fa;
-    color: #263238;
-  }
-
-  .wrap {
-    width: min(900px, 92vw);
-    margin: 40px auto;
-  }
-
-  h1 {
-    margin: 0 0 8px;
-    font-size: 32px;
-  }
-
-  .desc {
-    color: #607d8b;
-    margin-bottom: 24px;
-  }
-
-  .panel {
-    background: white;
-    border: 1px solid #d7e1e6;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.05);
-  }
-
-  .top {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-  }
-
-  .stat {
-    background: #eef5f7;
-    border-radius: 10px;
-    padding: 10px 14px;
-    min-width: 100px;
-  }
-
-  .stat strong {
-    display: block;
-    font-size: 12px;
-    color: #78909c;
-    margin-bottom: 3px;
-  }
-
-  .stat span {
-    font-size: 20px;
-    font-weight: bold;
-  }
-
-  select, button {
-    border: 1px solid #b9cbd3;
-    border-radius: 9px;
-    background: white;
-    padding: 10px 14px;
-    font-size: 14px;
-    cursor: pointer;
-  }
-
-  button:hover {
-    background: #f1f6f8;
-  }
-
-  #startBtn {
-    margin-left: auto;
-    background: #2f6f7e;
-    color: white;
-    border-color: #2f6f7e;
-    font-weight: bold;
-  }
-
-  #game {
-    position: relative;
-    height: 500px;
-    border: 2px solid #c8d8de;
-    border-radius: 12px;
-    overflow: hidden;
-    background: #fbfdfe;
-  }
-
-  #message {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: #78909c;
-    font-size: 18px;
-    text-align: center;
-    padding: 20px;
-    pointer-events: none;
-  }
-
-  #target {
-    position: absolute;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    border: 0;
-    background: #4f8ea0;
-    box-shadow: 0 3px 8px rgba(0,0,0,.15);
-    display: none;
-    cursor: pointer;
-  }
-
-  #target:active {
-    transform: scale(.92);
-  }
-
-  .result {
-    margin-top: 18px;
-    padding: 16px;
-    background: #f7fafb;
-    border-radius: 10px;
-    display: none;
-  }
-
-  .result strong {
-    font-size: 22px;
-  }
-
-  .help {
-    margin-top: 12px;
-    font-size: 13px;
-    color: #78909c;
-  }
+.celebration{position:absolute;inset:0;z-index:20;pointer-events:none;overflow:hidden}
+.confetti{position:absolute;width:8px;height:14px;border-radius:3px;animation:confettiFall 1.25s ease-out forwards}
+@keyframes confettiFall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:1}
+  100%{transform:translate(var(--dx),var(--dy)) rotate(620deg);opacity:0}
+}
+.celebrate-text{
+  position:absolute;left:50%;top:45%;transform:translate(-50%,-50%) scale(.8);
+  padding:12px 19px;border-radius:999px;background:rgba(255,255,255,.94);
+  border:1px solid #efb2c7;box-shadow:0 8px 24px rgba(160,75,105,.18);
+  color:#c15f83;font-size:18px;font-weight:800;animation:popText .95s ease-out forwards;white-space:nowrap
+}
+@keyframes popText{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.65)}
+  25%{opacity:1;transform:translate(-50%,-50%) scale(1.06)}
+  75%{opacity:1;transform:translate(-50%,-58%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-70%) scale(.96)}
+}
 </style>
 </head>
-
 <body>
 <div class="wrap">
-  <h1>30초 집중 클릭</h1>
-  <div class="desc">
-    30초 동안 나타나는 원을 최대한 많이 클릭해 보세요.
-  </div>
-
-  <div class="panel">
-    <div class="top">
-      <div class="stat">
-        <strong>남은 시간</strong>
-        <span id="time">30</span>초
-      </div>
-
-      <div class="stat">
-        <strong>점수</strong>
-        <span id="score">0</span>
-      </div>
-
-      <label>
-        난이도
-        <select id="difficulty">
-          <option value="easy">쉬움</option>
-          <option value="hard">어려움</option>
-        </select>
-      </label>
-
-      <button id="startBtn">게임 시작</button>
+  <header class="header">
+    <div>
+      <h1>30초 토끼 잡기</h1>
+      <p class="subtitle">뿅 하고 나타나는 토끼 그림자를 찾아 30초 동안 최대한 많이 클릭해 보세요.</p>
     </div>
+    <div class="badge">로그인 없이 바로 플레이</div>
+  </header>
 
-    <div id="game">
-      <div id="message">
-        <div>
-          <strong>게임 시작</strong><br>
-          화면에 나타나는 원을 클릭하세요.
+  <div class="layout">
+    <section class="card main">
+      <div class="controls">
+        <div class="stat"><small>남은 시간</small><strong id="time">30</strong>초</div>
+        <div class="stat"><small>점수</small><strong id="score">0</strong></div>
+        <div class="stat"><small>콤보</small><strong id="combo">0</strong></div>
+
+        <label>난이도
+          <select id="difficulty" aria-label="난이도 선택">
+            <option value="easy">쉬움</option>
+            <option value="normal" selected>보통</option>
+            <option value="hard">어려움</option>
+          </select>
+        </label>
+
+        <button class="btn primary" id="startBtn">게임 시작</button>
+
+        <div class="switches">
+          <label><input type="checkbox" id="sound" checked> 효과음</label>
+          <label><input type="checkbox" id="motion" checked> 움직임</label>
         </div>
       </div>
-      <button id="target" aria-label="클릭 타겟"></button>
-    </div>
 
-    <div id="result" class="result">
-      <div>게임 종료!</div>
-      <strong id="finalScore">0점</strong>
-      <div id="resultText"></div>
-    </div>
+      <div class="game" id="game" tabindex="0" aria-label="게임 영역">
+        <div class="hud"><span id="difficultyText">보통 · 30초</span><span>토끼를 클릭!</span></div>
+        <div class="celebration" id="celebration"></div>
+        <div id="message">
+          <div class="box">
+            <b>🐇 준비되셨나요?</b><br>
+            30초 안에 토끼 그림자를 최대한 많이 클릭하세요.
+          </div>
+        </div>
+        <button class="target" id="target" aria-label="토끼 타겟">
+          <svg class="bunny" viewBox="0 0 100 100" aria-hidden="true">
+            <ellipse class="sil" cx="53" cy="66" rx="27" ry="20"/>
+            <ellipse class="sil" cx="31" cy="75" rx="13" ry="8"/>
+            <ellipse class="sil" cx="73" cy="75" rx="13" ry="8"/>
+            <ellipse class="sil" cx="70" cy="48" rx="15" ry="14"/>
+            <ellipse class="sil ear2" cx="64" cy="22" rx="7" ry="20" transform="rotate(-10 64 22)"/>
+            <ellipse class="sil" cx="78" cy="20" rx="7" ry="22" transform="rotate(13 78 20)"/>
+            <circle class="sil" cx="82" cy="46" r="2.5" fill="#fff"/>
+          </svg>
+        </button>
+      </div>
 
-    <div class="help">
-      ※ 현재 버전은 기본 게임 구조를 보여주기 위한 첫 번째 버전입니다.
-    </div>
+      <div class="result" id="result">
+        <b id="finalScore">0점</b><span id="resultText"></span>
+        <button class="btn" id="saveBtn" style="float:right">기록 저장</button>
+      </div>
+
+      <div class="info">
+        <h3>게임 방법</h3>
+        <p>① 게임 시작 → ② 토끼 그림자를 클릭 → ③ 30초 동안 최대한 많이 클릭 → ④ 종료 후 닉네임을 입력해 기록 저장</p>
+        <p>새로고침해도 최고 기록과 저장한 결과는 브라우저에 남습니다. 플레이 중 새로고침하면 마지막 저장 지점에서 복구할 수 있습니다.</p>
+        <div class="testbox">
+          <h3 style="margin-bottom:5px">접근성 / 효과</h3>
+          <p style="margin:0">효과음을 끄면 뿅 소리가 즉시 사라지고,<br>움직임을 끄면 토끼의 통통 튀는 움직임이 즉시 멈춥니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card side">
+      <h2>플레이 기록</h2>
+      <p class="hint">닉네임과 게임 결과를 남겨보세요.</p>
+      <div class="record-form">
+        <input id="nickname" maxlength="12" placeholder="닉네임" aria-label="닉네임">
+        <button class="btn primary" id="saveRecord">저장</button>
+      </div>
+      <div class="records" id="records"></div>
+      <button class="btn clear" id="clearRecords">기록 전체 삭제</button>
+    </aside>
   </div>
 </div>
 
 <script>
-const game = document.getElementById("game");
-const target = document.getElementById("target");
-const startBtn = document.getElementById("startBtn");
-const difficulty = document.getElementById("difficulty");
+const $ = id => document.getElementById(id);
+const game=$("game"), target=$("target"), startBtn=$("startBtn");
+const difficulty=$("difficulty"), timeEl=$("time"), scoreEl=$("score"), comboEl=$("combo");
+const message=$("message"), result=$("result"), finalScore=$("finalScore"), resultText=$("resultText");
+const recordsEl=$("records"), nickname=$("nickname"), sound=$("sound"), motion=$("motion");
 
-const timeEl = document.getElementById("time");
-const scoreEl = document.getElementById("score");
-const message = document.getElementById("message");
-const result = document.getElementById("result");
-const finalScore = document.getElementById("finalScore");
-const resultText = document.getElementById("resultText");
-
-let timeLeft = 30;
-let score = 0;
-let timer = null;
-let playing = false;
-
-const settings = {
-  easy: {
-    size: 58,
-    color: "#4f8ea0"
-  },
-  hard: {
-    size: 38,
-    color: "#6d6475"
-  }
+const cfg={
+  easy:{name:"쉬움",size:82,lifetime:1150,points:1},
+  normal:{name:"보통",size:68,lifetime:850,points:1},
+  hard:{name:"어려움",size:48,lifetime:520,points:2}
 };
 
-function moveTarget() {
-  const setting = settings[difficulty.value];
+let playing=false,paused=false,timeLeft=30,score=0,combo=0,round=0;
+let timer=null,hideTimer=null, lastResult=null;
+let audioCtx=null;
 
-  target.style.width = setting.size + "px";
-  target.style.height = setting.size + "px";
-  target.style.background = setting.color;
+function saveState(){
+  if(!playing)return;
+  localStorage.setItem("rabbitGameState",JSON.stringify({
+    playing:true,timeLeft,score,combo,round,difficulty:difficulty.value,
+    savedAt:Date.now()
+  }));
+}
+function clearState(){localStorage.removeItem("rabbitGameState")}
 
-  const maxX = game.clientWidth - setting.size;
-  const maxY = game.clientHeight - setting.size;
-
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
-
-  target.style.left = x + "px";
-  target.style.top = y + "px";
+function restoreState(){
+  const raw=localStorage.getItem("rabbitGameState");
+  if(!raw)return;
+  try{
+    const s=JSON.parse(raw);
+    if(!s.playing || !s.savedAt)return;
+    const elapsed=Math.floor((Date.now()-s.savedAt)/1000);
+    const remain=s.timeLeft-elapsed;
+    if(remain>0 && remain<=30){
+      difficulty.value=s.difficulty||"normal";
+      timeLeft=remain; score=s.score||0; combo=s.combo||0; round=s.round||0;
+      timeEl.textContent=timeLeft;scoreEl.textContent=score;comboEl.textContent=combo;
+      message.querySelector(".box").innerHTML="<b>게임이 복구되었습니다.</b><br>이전 플레이를 이어갑니다.";
+      message.style.display="grid";
+      setTimeout(()=>resumeGame(),700);
+    }else clearState();
+  }catch(e){clearState()}
 }
 
-function startGame() {
+function positionTarget(){
+  const c=cfg[difficulty.value];
+  target.style.width=c.size+"px";target.style.height=c.size+"px";
+  const pad=8;
+  const maxX=Math.max(pad,game.clientWidth-c.size-pad);
+  const maxY=Math.max(60,game.clientHeight-c.size-pad);
+  target.style.left=(pad+Math.random()*(maxX-pad))+"px";
+  target.style.top=(60+Math.random()*(maxY-60))+"px";
+}
+function showTarget(){
+  clearTimeout(hideTimer);
+  positionTarget();
+  target.style.display="block";
+  applyEffects();
+  hideTimer=setTimeout(()=>{
+    if(playing){combo=0;comboEl.textContent=combo;showTarget()}
+  },cfg[difficulty.value].lifetime);
+}
+function applyEffects(){
+  target.classList.toggle("bounce",playing && motion.checked);
+  target.classList.toggle("reduced",!motion.checked);
+}
+function updateDifficultyText(){
+  $("difficultyText").textContent=cfg[difficulty.value].name+" · 30초";
+}
+function startGame(){
+  clearInterval(timer);clearTimeout(hideTimer);clearState();
+  playing=true;timeLeft=30;score=0;combo=0;round=0;lastResult=null;
+  timeEl.textContent=30;scoreEl.textContent=0;comboEl.textContent=0;
+  result.style.display="none";message.style.display="none";startBtn.textContent="다시 시작";
+  updateDifficultyText();playSound("start");showTarget();game.focus();
+  runTimer();
+}
+function resumeGame(){
+  playing=true;message.style.display="none";startBtn.textContent="다시 시작";
+  updateDifficultyText();showTarget();game.focus();
+  runTimer();
+}
+function runTimer(){
   clearInterval(timer);
-
-  timeLeft = 30;
-  score = 0;
-  playing = true;
-
-  timeEl.textContent = timeLeft;
-  scoreEl.textContent = score;
-
-  result.style.display = "none";
-  message.style.display = "none";
-  target.style.display = "block";
-  startBtn.textContent = "다시 시작";
-
-  moveTarget();
-
-  timer = setInterval(() => {
-    timeLeft--;
-    timeEl.textContent = timeLeft;
-
-    if (timeLeft <= 0) {
-      endGame();
-    }
-  }, 1000);
+  timer=setInterval(()=>{
+    if(!playing || paused)return;
+    timeLeft--;timeEl.textContent=timeLeft;saveState();
+    if(timeLeft<=0)endGame();
+  },1000);
 }
 
-function endGame() {
+function pauseGame(){
+  if(!playing || paused)return;
+  paused=true;
   clearInterval(timer);
-  playing = false;
-
-  target.style.display = "none";
-  message.style.display = "grid";
-
-  finalScore.textContent = score + "점";
-  resultText.textContent =
-    "30초 동안 총 " + score + "개의 타겟을 클릭했습니다.";
-
-  result.style.display = "block";
-  startBtn.textContent = "다시 시작";
+  clearTimeout(hideTimer);
+  target.style.display="none";
+  message.querySelector(".box").innerHTML="<b>잠시 멈췄어요.</b><br>화면으로 돌아오면 이어서 진행됩니다.";
+  message.style.display="grid";
+  saveState();
 }
 
-target.addEventListener("click", (event) => {
-  event.stopPropagation();
+function resumePausedGame(){
+  if(!playing || !paused)return;
+  paused=false;
+  message.style.display="none";
+  showTarget();
+  runTimer();
+  saveState();
+}
 
-  if (!playing) return;
-
-  score++;
-  scoreEl.textContent = score;
-  moveTarget();
+function endGame(){
+  clearInterval(timer);clearTimeout(hideTimer);playing=false;clearState();
+  target.style.display="none";message.style.display="grid";
+  message.querySelector(".box").innerHTML="<b>게임 종료!</b><br>기록 저장으로 결과를 남겨보세요.";
+  finalScore.textContent=score+"점";
+  resultText.textContent="30초 동안 "+round+"번의 타겟을 만났고, "+score+"점을 획득했습니다.";
+  result.style.display="block";startBtn.textContent="다시 시작";playSound("end");
+  lastResult={score,comboMax:combo, difficulty:cfg[difficulty.value].name, time:new Date().toLocaleString("ko-KR")};
+  nickname.focus();
+}
+target.addEventListener("click",e=>{
+  e.stopPropagation();if(!playing)return;
+  round++;score+=cfg[difficulty.value].points;combo++;
+  scoreEl.textContent=score;comboEl.textContent=combo;
+  playSound("hit");showTarget();saveState();
 });
-
-startBtn.addEventListener("click", startGame);
-
-difficulty.addEventListener("change", () => {
-  if (!playing) return;
-  moveTarget();
+game.addEventListener("click",e=>{
+  if(!playing || e.target===target)return;
+  combo=0;comboEl.textContent=0;playSound("miss");
 });
+startBtn.addEventListener("click",startGame);
+difficulty.addEventListener("change",()=>{
+  updateDifficultyText();
+  if(playing){clearTimeout(hideTimer);showTarget();saveState()}
+});
+motion.addEventListener("change",applyEffects);
+sound.addEventListener("change",()=>{ if(sound.checked) playSound("toggle") });
+
+
+function celebrateRecord(){
+  const layer=$("celebration");
+  layer.innerHTML='<div class="celebrate-text">🎉 기록 저장 완료!</div>';
+  const symbols=["✦","✧","•","♥","★"];
+  for(let i=0;i<34;i++){
+    const el=document.createElement("span");
+    el.className="confetti";
+    el.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+    el.style.left=(45+Math.random()*10)+"%";
+    el.style.top=(38+Math.random()*8)+"%";
+    el.style.fontSize=(10+Math.random()*12)+"px";
+    el.style.setProperty("--dx",(Math.random()*360-180)+"px");
+    el.style.setProperty("--dy",(130+Math.random()*260)+"px");
+    el.style.animationDelay=(Math.random()*.18)+"s";
+    el.style.opacity="1";
+    layer.appendChild(el);
+  }
+  setTimeout(()=>layer.innerHTML="",1500);
+  playSound("celebrate");
+}
+
+function playSound(type){
+  if(!sound.checked)return;
+  try{
+    audioCtx ||= new (window.AudioContext||window.webkitAudioContext)();
+    if(audioCtx.state==="suspended")audioCtx.resume();
+    const now=audioCtx.currentTime;
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    o.connect(g);g.connect(audioCtx.destination);
+    const map={hit:[520,760,.09],miss:[190,130,.10],start:[360,620,.16],end:[620,320,.22],toggle:[420,500,.08],celebrate:[520,880,.20]};
+    const [a,b,d]=map[type]||map.hit;
+    o.type="sine";o.frequency.setValueAtTime(a,now);o.frequency.exponentialRampToValueAtTime(b,now+d);
+    g.gain.setValueAtTime(.0001,now);g.gain.exponentialRampToValueAtTime(.12,now+.015);g.gain.exponentialRampToValueAtTime(.0001,now+d);
+    o.start(now);o.stop(now+d+.02);
+  }catch(e){}
+}
+
+function loadRecords(){
+  const arr=JSON.parse(localStorage.getItem("rabbitRecords")||"[]");
+  if(!arr.length){recordsEl.innerHTML='<div class="empty">아직 저장된 기록이 없습니다.</div>';return}
+  recordsEl.innerHTML=arr.map((r,i)=>`
+    <div class="record">
+      <div><span class="name">${escapeHtml(r.name)}</span><small>${escapeHtml(r.difficulty)} · ${escapeHtml(r.time)}</small></div>
+      <div class="score">${r.score}점</div>
+    </div>`).join("");
+}
+function saveRecord(){
+  const name=nickname.value.trim();
+  if(!name){nickname.focus();alert("닉네임을 입력해주세요.");return}
+  if(!lastResult){alert("먼저 게임을 한 번 끝내주세요.");return}
+  const arr=JSON.parse(localStorage.getItem("rabbitRecords")||"[]");
+  arr.unshift({name,score:lastResult.score,difficulty:lastResult.difficulty,time:lastResult.time});
+  arr.sort((a,b)=>b.score-a.score);
+  localStorage.setItem("rabbitRecords",JSON.stringify(arr.slice(0,20)));
+  localStorage.setItem("rabbitBest",String(Math.max(Number(localStorage.getItem("rabbitBest")||0),lastResult.score)));
+  nickname.value="";loadRecords();celebrateRecord();
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+$("saveRecord").addEventListener("click",saveRecord);
+$("saveBtn").addEventListener("click",saveRecord);
+nickname.addEventListener("keydown",e=>{if(e.key==="Enter")saveRecord()});
+$("clearRecords").addEventListener("click",()=>{
+  if(confirm("저장된 플레이 기록을 모두 삭제할까요?")){localStorage.removeItem("rabbitRecords");loadRecords()}
+});
+window.addEventListener("beforeunload",saveState);
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden) pauseGame();
+  else resumePausedGame();
+});
+updateDifficultyText();loadRecords();restoreState();
 </script>
 </body>
 </html>
