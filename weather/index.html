@@ -1,1 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>하늘 기록실 · 서울</title>
+<style>
+:root{--background:#eaf5ff;--foreground:#213f61;--primary:#3476b9;--primary-foreground:#fff;--muted:#e5f1fc;--muted-foreground:#536d86;--border:#c6dcef;--input:#bdd5e9;--ring:#4586c9;--card:#ffffff;--card-foreground:#213f61;--secondary:#edf6fc;--secondary-foreground:#213f61;--accent:#e0effc;--accent-foreground:#213f61}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:#213f61;background:#d6ecfc;font-family:Arial,'Noto Sans KR',sans-serif;font-size:16px;line-height:1.6}body:before{content:'';position:fixed;inset:0;background:linear-gradient(180deg,rgba(219,239,255,.08),rgba(232,245,255,.78) 70%,#edf7ff),url('https://sky-journal-seoul.ddho0216.chatgpt.site/sky.webp') center top/cover no-repeat;z-index:-1}main{max-width:1200px;margin:auto;padding:0 40px}a{text-decoration:none;color:inherit}a:hover{text-decoration:underline}button,a{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #1e69ac;outline-offset:4px}.topbar{display:flex;align-items:center;justify-content:space-between;padding:28px 0;border-bottom:1px solid #ffffff80;font-size:14px}.topbar a,.brand,footer span{display:flex;align-items:center;gap:9px}.brand{font-size:20px;font-weight:700}.edition{letter-spacing:2px;font-size:12px}.intro{display:flex;justify-content:space-between;align-items:flex-end;padding:42px 0 30px}.eyebrow{font-size:12px;letter-spacing:2px;font-weight:600;color:#3c6993}h1{font-size:46px;letter-spacing:-2px;line-height:1.3;font-weight:500;margin:15px 0}h1 span{font-weight:300}p{margin:8px 0}.intro p:last-child{color:#395d7f}.location{font-size:14px;text-align:right;padding-bottom:8px}.location small{font-size:12px;letter-spacing:1px;color:#466d91}.dashboard{display:grid;grid-template-columns:1.45fr 1fr;gap:20px}.panel{background:#ffffffd9;border:1px solid #ffffff;border-radius:22px;padding:28px;box-shadow:0 12px 40px #4c80ac0b;backdrop-filter:blur(14px)}.section-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.section-head>span:first-child{display:flex;align-items:center;gap:8px;font-weight:600}.status,.mini{font-size:12px;border-radius:30px;background:#e6f1fa;color:#34638c;padding:5px 12px}.warning{background:#fff0d5;color:#825723}.temperature{font-size:94px;font-weight:300;letter-spacing:-5px;line-height:1.2;margin:20px 0 12px}.temperature span{font-size:36px;letter-spacing:0;padding-left:10px}.definition{font-size:13px;color:#526e87}.current-bottom{border-top:1px solid #dce8f2;margin-top:24px;padding-top:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.current-bottom p{font-size:13px;color:#577086}.primary{border-radius:25px;padding:21px 20px;white-space:nowrap}.context dl{margin:20px 0 14px}.context dl>div{padding:9px 0}.context dt{font-size:12px;color:#657f95}.context dd{margin:2px 0;font-size:14px}.context dd a{display:flex;align-items:center;gap:6px}.note{font-size:12px;color:#5b7287;border-top:1px solid #dae7f1;padding-top:13px}.workspace{margin-top:32px}.tabbar{background:transparent!important;gap:22px!important;margin-bottom:12px;padding:0!important;height:auto!important;border-bottom:1px solid #bfd5e7;width:100%!important;justify-content:flex-start!important;border-radius:0!important}.tabbar button{border-radius:0!important;background:transparent!important;box-shadow:none!important;padding:13px 3px!important;flex:none!important;font-size:15px;color:#58748d}.tabbar button[data-state=active]{color:#235f98;border-bottom:2px solid #357cb8;font-weight:700}h2{font-size:19px;font-weight:600;margin:0 0 6px}.history .section-head p,.evidence>p,.test>p{font-size:14px;color:#57718a}.comparison{display:flex;align-items:center;gap:20px;background:#edf6fe;border-radius:14px;margin:24px 0 10px;padding:20px;font-size:14px}.comparison strong{font-size:20px;font-weight:500}.comparison p{margin-left:auto;font-size:12px;max-width:330px;color:#526e87}.empty{padding:30px;text-align:center;color:#617f9a}.empty svg{margin:auto}.empty h3{font-size:17px;margin:10px 0}.empty p{font-size:14px}.footnote{font-size:12px;color:#647c91;margin-top:16px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px;white-space:nowrap}th{text-align:left;font-size:12px;color:#5d758c;font-weight:500}td,th{padding:16px 12px;border-bottom:1px solid #e0ebf3}td:first-child,th:first-child{padding-left:0}details{border-top:1px solid #ccdfed;padding:18px 0;margin-top:12px}summary{cursor:pointer;font-size:14px}pre{background:#edf5fc;padding:18px;overflow:auto;max-height:340px;font-size:12px}.proof{display:flex;gap:22px;flex-wrap:wrap;margin:20px 0;font-size:14px}.proof span{display:flex;gap:8px;align-items:center}.source-url{font-size:14px;color:#27649a}.test-buttons{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}.simulation{padding:24px;background:#edf6fd;border-radius:15px}.simulation h3{font-size:32px;margin:8px 0}.simulation small{font-size:13px;background:#ffedce;padding:6px 12px;border-radius:20px}.simulation code{font-size:13px}.simulation p{font-size:14px}.error{background:#fff4df;border:1px solid #ead7b7;border-radius:12px;padding:16px;margin-top:16px;font-size:14px}.error small{font-size:12px}.guide{display:grid;grid-template-columns:1.2fr 1fr;gap:50px;padding:38px 6px 26px}.guide p,.guide li{font-size:13px;color:#4d6981}.guide h2{font-size:16px}.guide ol{padding-left:20px}.guide li{margin:8px 0}footer{border-top:1px solid #c4dceb;padding:24px 0 30px;display:flex;align-items:center;justify-content:space-between;color:#58738c;font-size:12px}.spin{animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.spin{animation:none}}@media(max-width:760px){main{padding:0 18px}.edition,.location{display:none}.topbar{padding:20px 0}.intro{padding:28px 0 22px}h1{font-size:36px}.intro p:last-child{font-size:14px}.dashboard{grid-template-columns:1fr}.panel{padding:22px}.temperature{font-size:78px}.context dl{display:grid;grid-template-columns:1fr 1fr;gap:10px}.current-bottom{flex-wrap:wrap}.guide{grid-template-columns:1fr;gap:24px}.comparison{align-items:flex-start;flex-wrap:wrap;gap:10px}.comparison p{width:100%;max-width:none;margin:0}.history .section-head{align-items:flex-start;flex-wrap:wrap}.tabbar{gap:16px!important}.tabbar button{font-size:14px}footer{flex-wrap:wrap;gap:16px}.section-head{gap:8px}.status{white-space:nowrap}}
 
+.guide{grid-template-columns:1fr}.fetch-note{font-size:13px;color:#35618a;padding:12px 0 0}.attempt{font-size:12px;color:#61778b;margin-top:12px}
+
+
+button{font:inherit;border:1px solid #bcd3e7;background:#fff;color:#234d71;border-radius:12px;padding:10px 14px;display:inline-flex;align-items:center;gap:8px}
+button:hover{background:#eef7ff}
+button.primary{background:#3476b9;color:#fff;border-color:#3476b9}
+button:disabled{opacity:.5;cursor:not-allowed}
+.tabcontent{display:none}.tabcontent.active{display:block}
+.tabbtn.active{color:#235f98!important;border-bottom:2px solid #357cb8!important;font-weight:700}
+.icon{display:inline-block;width:1em;text-align:center}
+.hidden{display:none!important}
+
+</style>
+</head>
+<body>
+<main>
+<header class="topbar">
+  <a class="brand" href="#"><span class="icon">🪶</span> 하늘 기록실</a>
+  <span class="edition">SEOUL · DAILY SKY JOURNAL</span>
+  <a href="#guide">이용 안내 ↗</a>
+</header>
+
+<section class="intro">
+  <div>
+    <p class="eyebrow">A LITTLE CLOSER TO THE SKY</p>
+    <h1>오늘의 하늘을,<br><span>하루 한 줄로.</span></h1>
+    <p>서울의 기온을 확인하고 어제와 오늘을 이어 보세요.</p>
+  </div>
+  <span class="location">서울, 대한민국<br><small>37.5665° N &nbsp; 126.9780° E</small></span>
+</section>
+
+<div class="dashboard">
+<section class="current panel">
+  <div class="section-head">
+    <span><span class="icon">🌤️</span> 현재 시각의 서울 기온</span>
+    <span id="status" class="status">첫 기록 대기</span>
+  </div>
+  <div class="temperature"><span id="tempValue" style="font-size:inherit;letter-spacing:inherit;padding:0">—</span><span>°C</span></div>
+  <p class="definition">지상 2m 기온 · 기상 모델의 현재 시간대 예보값</p>
+  <div class="current-bottom">
+    <p id="currentMessage">첫 번째 하늘을 기록해 볼까요?</p>
+    <button id="refreshBtn" class="primary">↻ 지금 조회하기</button>
+  </div>
+  <div aria-live="polite">
+    <p id="notice" class="fetch-note hidden"></p>
+    <p id="attempt" class="attempt hidden"></p>
+    <div id="errorBox" class="error hidden">
+      <strong id="errorTitle"></strong>
+      <p id="errorText"></p>
+      <small id="staleNote" class="hidden">마지막 정상값을 유지했습니다. 현재 기온과 다를 수 있습니다.</small>
+    </div>
+  </div>
+</section>
+
+<aside class="context panel">
+  <div class="section-head"><span>기록의 기준</span><span class="mini">KST</span></div>
+  <dl>
+    <div><dt>데이터 출처</dt><dd><a href="https://open-meteo.com/en/docs" target="_blank" rel="noreferrer">Open-Meteo ↗</a></dd></div>
+    <div><dt>출처 시각 · 값의 기준 시각</dt><dd id="sourceTime">조회 후 표시</dd></div>
+    <div><dt>조회 시각</dt><dd id="fetchedTime">조회 후 표시</dd></div>
+    <div><dt>기준 시간대</dt><dd>Asia/Seoul · UTC+09:00</dd></div>
+  </dl>
+  <p class="note">실측 관측소 값이 아닌 현재 시간대의 예보값입니다. 배경 이미지는 실제 날씨를 나타내지 않습니다.</p>
+</aside>
+</div>
+
+<div class="workspace">
+  <div class="tabbar">
+    <button class="tabbtn active" data-tab="records">하루의 기록</button>
+    <button class="tabbtn" data-tab="evidence">원자료 확인</button>
+    <button class="tabbtn" data-tab="test">오류 시험실</button>
+  </div>
+
+  <div id="records" class="tabcontent active">
+    <section class="panel history">
+      <div class="section-head">
+        <div><h2>쌓이는 하루, 달라지는 기온</h2><p>한국 시간으로 하루 한 건. 같은 날 다시 조회하면 최신값으로 바뀝니다.</p></div>
+        <button id="downloadBtn">⇩ 기록 내려받기</button>
+      </div>
+      <div class="comparison">
+        <span id="compareLabel">어제와 비교</span>
+        <strong id="compareValue">아직 기다리는 중</strong>
+        <p id="compareDetail">서로 다른 실제 날짜에 조회한 기록이 있어야 비교할 수 있어요.</p>
+      </div>
+      <div id="recordsBody"></div>
+      <p id="countNote" class="footnote">실제 기록 0건 · 날짜를 바꾼 합성 시험값은 이곳에 저장되지 않습니다.</p>
+    </section>
+  </div>
+
+  <div id="evidence" class="tabcontent">
+    <section class="panel evidence">
+      <h2>출처부터 화면까지, 같은 값인지 확인하세요.</h2>
+      <p>각 날짜에 마지막으로 성공한 응답 원문과 저장값을 함께 보관합니다.</p>
+      <div id="evidenceBody" class="empty">실제 조회에 성공하면 대조 자료가 나타납니다.</div>
+    </section>
+  </div>
+
+  <div id="test" class="tabcontent">
+    <section class="panel test">
+      <h2>데이터가 오지 않을 때도, 정직하게.</h2>
+      <p>시험용 가짜 데이터로 조회 실패와 복구를 확인합니다. 실제 기온 기록에는 저장되지 않습니다.</p>
+      <div class="test-buttons">
+        <button data-fixture="reset">초기화</button>
+        <button data-fixture="d1a">첫날 정상값 넣기</button>
+        <button data-fixture="d1b">같은 날 값 다시 넣기</button>
+        <button data-fixture="timeout">느린 응답</button>
+        <button data-fixture="auth">출처 접근 거부 (401/403)</button>
+        <button data-fixture="rate">호출 제한</button>
+        <button data-fixture="offline">오프라인</button>
+        <button data-fixture="schema">형식 변경</button>
+        <button data-fixture="recover">다음 날 정상 복구</button>
+      </div>
+      <div class="simulation" aria-live="polite">
+        <span class="eyebrow">시험용 가짜 기온 · 실제 날씨 아님</span>
+        <h3 id="simTemp">정상값 없음</h3>
+        <p id="simTitle">정상 상태</p>
+        <p id="simText"></p>
+        <code id="simCode">status: empty / error_code: none</code>
+        <p id="simLog">아래 정상값부터 시작해 주세요.</p>
+        <p id="simRows">일별 기록 0건</p>
+        <button id="simRetry" class="hidden" data-fixture="recover">다시 시도 · 시험값 복구</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+<section id="guide" class="guide">
+  <div>
+    <p class="eyebrow">HOW TO KEEP YOUR SKY</p>
+    <h2>짧은 확인 방법</h2>
+    <ol>
+      <li>이 페이지 상단에서 시작합니다.</li>
+      <li>‘지금 조회하기’ → ‘하루의 기록’ → ‘원자료 확인’ 순서로 확인합니다.</li>
+      <li>값·단위·출처·두 시각이 나타나고 원자료와 일치하면 정상입니다.</li>
+      <li>실패하면 원인과 다음 행동이 나타나고 마지막 정상값에 ‘오래된 값’이 붙습니다.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <span>🪶 하늘 기록실</span>
+  <a href="https://open-meteo.com/" target="_blank">Weather data: Open-Meteo</a>
+  <a href="https://open-meteo.com/en/docs" target="_blank">공개 원천 문서 ↗</a>
+</footer>
+</main>
+
+<script>
+const SOURCE='https://api.open-meteo.com/v1/forecast?latitude=37.5665&longitude=126.9780&current=temperature_2m&timezone=Asia%2FSeoul';
+const ERRORS={
+ timeout:['응답이 늦어지고 있어요','8초 안에 응답을 받지 못했습니다. 잠시 후 다시 조회해 주세요.'],
+ auth:['출처에서 접근을 거절했어요','외부 원천의 401/403 응답입니다. 출처 상태를 확인한 뒤 다시 시도해 주세요.'],
+ rate:['조회 요청이 너무 많아요','외부 원천의 호출 제한입니다. 1분 이상 기다린 뒤 다시 시도해 주세요.'],
+ offline:['인터넷 연결을 확인해 주세요','연결이 끊겼거나 외부 원천에 도달하지 못했습니다. 연결 후 다시 시도해 주세요.'],
+ schema:['데이터 형식이 달라졌어요','출처 응답을 해석할 수 없습니다. 원자료를 확인하고 형식을 수정해야 합니다.']
+};
+const $=s=>document.querySelector(s);
+const fmt=t=>new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',dateStyle:'medium',timeStyle:'medium'}).format(new Date(t));
+const dayKey=t=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(t));
+let rows=JSON.parse(localStorage.getItem('sky-journal-records')||'[]'), sim=[], simError='';
+
+function upsert(arr,r){return [...arr.filter(x=>x.day!==r.day),r].sort((a,b)=>a.day.localeCompare(b.day));}
+function comparison(arr){const s=[...arr].sort((a,b)=>a.day.localeCompare(b.day));if(s.length<2)return null;const b=s.at(-1),a=s.at(-2);const consecutive=(Date.parse(b.day)-Date.parse(a.day))===86400000;return {a,b,value:Math.round((b.value-a.value)*10)/10,consecutive};}
+function rawValue(r){return r.raw?.current?.temperature_2m;}
+function normalize(raw,at){
+ if(!raw||raw.timezone!=='Asia/Seoul'||raw.utc_offset_seconds!==32400||typeof raw.current?.temperature_2m!=='number'||raw.current_units?.temperature_2m!=='°C') throw Error('schema');
+ return {day:dayKey(at),value:raw.current.temperature_2m,unit:'°C',source:SOURCE,source_time:raw.current.time+'+09:00',fetched_at:at,raw};
+}
+function save(){localStorage.setItem('sky-journal-records',JSON.stringify(rows));}
+function setError(code){
+ const latest=rows.at(-1); simError=code;
+ $('#status').textContent=latest?'오래된 값':'조회 실패'; $('#status').classList.add('warning');
+ $('#errorBox').classList.remove('hidden'); $('#errorTitle').textContent=ERRORS[code]?.[0]||'조회하지 못했어요'; $('#errorText').textContent=ERRORS[code]?.[1]||'';
+ $('#staleNote').classList.toggle('hidden',!latest);
+ $('#currentMessage').textContent=latest?'마지막으로 저장된 정상값입니다.':'첫 번째 하늘을 기록해 볼까요?';
+}
+async function refresh(){
+ $('#refreshBtn').disabled=true; $('#status').textContent='조회 중'; $('#notice').classList.add('hidden'); $('#attempt').classList.remove('hidden'); $('#attempt').textContent='최근 조회 시도: '+fmt(new Date().toISOString());
+ try{
+  if(!navigator.onLine) throw Error('offline');
+  const res=await fetch(SOURCE,{signal:AbortSignal.timeout(8000)});
+  if(res.status===401||res.status===403) throw Error('auth');
+  if(res.status===429) throw Error('rate');
+  if(!res.ok) throw Error('offline');
+  const raw=await res.json(); const record=normalize(raw,new Date().toISOString());
+  rows=upsert(rows,record); save();
+  $('#status').textContent='최신 조회 완료'; $('#status').classList.remove('warning'); $('#errorBox').classList.add('hidden');
+  $('#notice').textContent='실제 공개 원천을 조회하고 오늘의 기록을 브라우저에 저장했습니다.'; $('#notice').classList.remove('hidden');
+ }catch(e){setError(e.name==='TimeoutError'?'timeout':(e.message in ERRORS?e.message:'offline'));}
+ finally{$('#refreshBtn').disabled=false; render();}
+}
+function render(){
+ const latest=rows.at(-1), diff=comparison(rows);
+ $('#tempValue').textContent=latest?latest.value:'—';
+ $('#sourceTime').textContent=latest?fmt(latest.source_time):'조회 후 표시';
+ $('#fetchedTime').textContent=latest?fmt(latest.fetched_at):'조회 후 표시';
+ $('#currentMessage').textContent=latest?($('#errorBox').classList.contains('hidden')?'오늘의 기온을 안전하게 기록했어요.':'마지막으로 저장된 정상값입니다.'):'첫 번째 하늘을 기록해 볼까요?';
+ $('#compareLabel').textContent=diff?(diff.consecutive?'어제 대비':'직전 기록 대비'):'어제와 비교';
+ $('#compareValue').textContent=diff?`${diff.value>0?'+':''}${diff.value} °C`:'아직 기다리는 중';
+ $('#compareDetail').textContent=diff?`${diff.b.value} − ${diff.a.value} = ${diff.value} °C · ${diff.a.day} → ${diff.b.day}`:'서로 다른 실제 날짜에 조회한 기록이 있어야 비교할 수 있어요.';
+ $('#countNote').textContent=`실제 기록 ${rows.length}건 · 날짜를 바꾼 합성 시험값은 이곳에 저장되지 않습니다.`;
+ if(!rows.length) $('#recordsBody').innerHTML='<div class="empty">아직 기록된 하늘이 없어요.<br>조회에 성공하면 첫 기록이 남습니다.</div>';
+ else $('#recordsBody').innerHTML='<div class="table-wrap"><table><thead><tr><th>기록 날짜 · KST</th><th>기온</th><th>출처 시각 · KST</th><th>조회 시각 · KST</th></tr></thead><tbody>'+[...rows].reverse().map(r=>`<tr><td>${r.day}</td><td><strong>${r.value} ${r.unit}</strong></td><td>${fmt(r.source_time)}</td><td>${fmt(r.fetched_at)}</td></tr>`).join('')+'</tbody></table></div>';
+ if(!rows.length) $('#evidenceBody').innerHTML='실제 조회에 성공하면 대조 자료가 나타납니다.';
+ else $('#evidenceBody').innerHTML=rows.map(r=>`<details><summary>${r.day} · ${r.value} ${r.unit} · 원자료 / 저장값 / 화면값</summary><div class="proof"><span>원자료 <b>${rawValue(r)} ${r.unit}</b></span><span>저장값 <b>${r.value} ${r.unit}</b></span><span>화면값 <b>${r.value} ${r.unit}</b></span><span>✓ ${rawValue(r)===r.value?'일치':'불일치'}</span></div><a class="source-url" href="${r.source}" target="_blank">공개 원천 URL 열기 ↗</a><pre>${JSON.stringify(r,null,2).replace(/</g,'&lt;')}</pre></details>`).join('');
+ $('#downloadBtn').disabled=!rows.length;
+}
+function trial(k){
+ if(k==='reset'){sim=[];simError='';updateSim('시험 기록을 초기화했습니다.');return;}
+ if(['timeout','auth','rate','offline','schema'].includes(k)){simError=k;updateSim(`${ERRORS[k][0]} · 마지막 정상값과 ${sim.length}건의 기록 유지`);return;}
+ const d=k==='recover'?2:1, v=k==='d1a'?20:k==='d1b'?21:23;
+ const at=`2030-01-0${d}T03:00:05Z`;
+ const record={day:`2030-01-0${d}`,value:v,unit:'°C',source:'synthetic-fixture',source_time:`2030-01-0${d}T03:00:00Z`,fetched_at:at,raw:{fixture:true,value:v}};
+ const before=sim.length; sim=upsert(sim,record); simError='';
+ updateSim(`${k==='recover'?'다음 날 복구':'같은 날 정상 조회'} · ${before}건 → ${sim.length}건`);
+}
+function updateSim(log){
+ const sl=sim.at(-1);
+ $('#simTemp').innerHTML=(sl?`${sl.value} °C`:'정상값 없음')+(simError&&sl?' <small>오래된 값</small>':'');
+ $('#simTitle').textContent=simError?ERRORS[simError][0]:'정상 상태';
+ $('#simText').textContent=simError?ERRORS[simError][1]:'';
+ $('#simCode').textContent=`status: ${simError?(sl?'stale':'error'):sl?'fresh':'empty'} / error_code: ${simError||'none'}`;
+ $('#simLog').textContent=log; $('#simRows').textContent=`일별 기록 ${sim.length}건 · `+sim.map(r=>`${r.day}: ${r.value} °C`).join(' / ');
+ $('#simRetry').classList.toggle('hidden',!simError);
+}
+document.querySelectorAll('.tabbtn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabbtn').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tabcontent').forEach(x=>x.classList.remove('active'));b.classList.add('active');$('#'+b.dataset.tab).classList.add('active');});
+document.querySelectorAll('[data-fixture]').forEach(b=>b.onclick=()=>trial(b.dataset.fixture));
+$('#refreshBtn').onclick=refresh;
+$('#downloadBtn').onclick=()=>{const blob=new Blob([JSON.stringify({timezone:'Asia/Seoul',rows,comparison:comparison(rows)},null,2)],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='sky-records.json';a.click();URL.revokeObjectURL(u);};
+render();
+refresh();
+</script>
+</body>
+</html>
