@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>짤·카드 스튜디오</title>
+<style>
+:root{
+ --ink:#27232a;--muted:#817985;--line:#eee8ed;--surface:#ffffff;
+ --bg:#fbfafc;--pink:#ff6f9f;--pink2:#ffedf3;--purple:#8d79d6;
+ --purple2:#f4f1ff;--mint:#43aa9d;--mint2:#eefaf7;--sand:#fff8ed;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Pretendard","Noto Sans KR",Inter,system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+header{padding:38px 5vw 29px;text-align:center;background:#fff;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:30px;line-height:1.1;font-weight:900;letter-spacing:-1.7px;color:#2f2931}
+h1 .accent{color:var(--pink)}
+header p{margin:10px 0 0;font-size:13px;line-height:1.5;font-weight:500;color:var(--muted)}
+main{max-width:1260px;margin:auto;padding:24px 4vw 54px;display:grid;grid-template-columns:340px minmax(0,1fr);gap:18px;align-items:start}
+.controls,.workspace{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 8px 24px rgba(61,46,57,.045)}
+.cardBox{padding:17px;border:1px solid var(--line);border-radius:19px;background:#fff}
+.pink,.lav,.yellow,.mint{background:#fff}
+.cardTitle{display:flex;align-items:center;gap:10px;margin-bottom:13px;font-size:15px;font-weight:850;letter-spacing:-.3px}
+.badgeNum{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#f7f3f6;color:#756873;font-size:12px;font-weight:900}
+.pink .badgeNum{background:var(--pink2);color:#e95287}.lav .badgeNum{background:var(--purple2);color:#7862c4}.yellow .badgeNum{background:var(--sand);color:#b98232}.mint .badgeNum{background:var(--mint2);color:#278e82}
+.stepHelp{margin:-3px 0 12px;font-size:11px;line-height:1.55;color:var(--muted)}
+label{display:block;margin:0 0 6px;font-size:12px;font-weight:750;color:#5e555e}
+input,textarea,select,button{font:inherit}
+textarea,input[type=text],select{width:100%;padding:11px 13px;border:1px solid #e6e0e4;border-radius:13px;background:#fff;color:var(--ink);outline:none;transition:.15s}
+textarea:focus,input[type=text]:focus,select:focus{border-color:#f2a2bd;box-shadow:0 0 0 3px #fff0f5}
+button{border:0;border-radius:13px;padding:10px 12px;background:#f5f2f4;color:#514951;font-weight:780;cursor:pointer;transition:.15s}
+button:hover{transform:translateY(-1px);background:#f1edf0}
+button.primary{background:#ff709f;color:#fff}button.primary:hover{background:#f86597}
+button.ok{background:#f0ecff;color:#715dc1}.danger{background:#fff0f4!important;color:#d8527c!important}
+.row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;width:100%}
+.row>div{min-width:0;width:100%}.row input[type="range"]{display:block;width:100%;min-width:0}
+.fileDrop{padding:16px;border:1.5px dashed #efb2c6;border-radius:15px;background:#fffafd;text-align:center}
+.fileDrop strong{display:block;margin-bottom:4px;font-size:13px;color:#4e454d}.fileDrop .sub{font-size:10px;color:#9a8e96}
+.fileDrop input[type=file]{width:100%;font-size:0;color:transparent}
+.fileDrop input[type=file]::file-selector-button{display:block;width:100%;margin:11px 0 0;padding:10px;border:0;border-radius:12px;background:#ff709f;color:#fff;font-size:12px;font-weight:800;cursor:pointer}
+.help,.status,.sourceHint{font-size:10.5px;line-height:1.55;color:var(--muted)}.status{margin-top:7px}.status:empty{display:none}.status.error{color:#d34f72}.status.success{color:#248e72}
+.rangeBlock{margin-top:10px;width:100%;display:block}.rangeLabel{display:flex;justify-content:space-between;align-items:center}.rangeValue{font-size:10px;font-weight:700;color:#9a8f97}input[type=range]{display:block;width:100%;min-width:0;margin:5px 0 0;padding:0;box-sizing:border-box;accent-color:var(--pink)}
+input[type=color]{appearance:none;-webkit-appearance:none;width:100%;height:38px;padding:0;border:1px solid #e6e0e4;border-radius:13px;background:#fff;overflow:hidden;cursor:pointer}
+input[type=color]::-webkit-color-swatch-wrapper{padding:5px}input[type=color]::-webkit-color-swatch{border:0;border-radius:9px}input[type=color]::-moz-color-swatch{border:0;border-radius:9px}#colorText{display:none}
+.ratioBtns{display:flex;gap:7px}.ratioBtns button{flex:1;border:1px solid #e7e1e5;background:#fff}.ratioBtns button.active{border-color:#ff709f;background:#ffedf3;color:#df4f82}
+.previewPanel{padding:15px}.previewHead{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}.previewHead h2{margin:0;font-size:15px}.previewWrap{min-height:610px;display:grid;place-items:center;overflow:auto;padding:23px;border-radius:17px;background:#f4f2f4}
+#stage{position:relative;max-width:100%;overflow:hidden;background:#ddd;border-radius:7px;box-shadow:0 12px 30px rgba(54,43,50,.13)}
+#canvas,#textLayer{position:absolute;inset:0;width:100%;height:100%}#canvas{display:block}#textLayer{pointer-events:none}
+#caption{display:none!important;position:absolute;max-width:90%;transform:translate(-50%,-50%);white-space:pre-wrap;word-break:break-word;text-align:center;line-height:1.15;font-weight:800;text-shadow:0 2px 8px rgba(0,0,0,.25)}
+#sourceCaption{display:none!important;position:absolute;right:2.5%;bottom:2.5%;max-width:92%;padding:3px 7px;border-radius:6px;background:rgba(0,0,0,.44);color:#fff;font-size:10px;line-height:1.25;text-align:right;word-break:break-all}
+.empty{text-align:center;color:#9a9097;font-size:11px;padding:28px}
+.templates{display:grid;gap:7px;margin-top:10px}.item{display:flex;align-items:center;gap:6px;padding:8px;border:1px solid #e9e3e7;border-radius:12px;background:#fff}.item strong{font-size:11px}.item .meta{flex:1;font-size:9px;color:var(--muted)}.templateActions{display:flex;gap:3px}.tiny{padding:5px 6px;font-size:9px}
+.templateCreate{display:grid;grid-template-columns:1fr auto;gap:8px}.templateTools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px;padding-top:11px;border-top:1px solid var(--line)}.templateTools button{min-height:45px;padding-left:6px;padding-right:6px;font-size:11px;line-height:1.35}.templateTools small{display:block;margin-top:2px;font-size:8.5px;font-weight:500;letter-spacing:-.25px;white-space:nowrap;color:#958995}
+.sourcePanel{margin-top:0}
+.compactCard{padding-bottom:15px}.overlayPreview{margin-top:9px;font-size:10.5px;color:var(--muted)}
+.underPreview{padding:16px}.framePicker{position:relative}.frameToggle{width:100%;display:flex;align-items:center;justify-content:space-between;border:1px solid #e6dce2;background:#fff;color:#4f454d}.frameToggle[aria-expanded="true"]{border-color:#ff709f;background:#fff7fa}.frameMenu{display:none;margin-top:8px;padding:7px;border:1px solid #eadfe5;border-radius:14px;background:#fff;box-shadow:0 12px 28px rgba(56,40,50,.1)}.frameMenu.open{display:grid;grid-template-columns:1fr 1fr;gap:6px}.frameMenu button{display:flex;align-items:center;gap:8px;text-align:left;padding:9px;border:1px solid transparent;background:#faf7f9;font-size:11px}.frameMenu button:hover{border-color:#f2b0c6;background:#fff2f6}.frameMenu button.active{border-color:#ff709f;background:#ffedf3;color:#d9487c}.frameSwatch{width:24px;height:19px;border-radius:5px;border:2px solid #ded4da;background:#fff;flex:none}.sw-pink{border:4px solid #ff8fb4}.sw-film{border:5px solid #27232a}.sw-polaroid{border:4px solid #fff;box-shadow:0 0 0 1px #bbb}.sw-white{border:5px double #fff;box-shadow:0 0 0 1px #bbb}.sw-black{border:3px solid #222}.sw-gold{border:4px double #c89b3c}.sw-check{border:4px dashed #ff709f}.sw-dot{border:4px dotted #8d79d6}.sw-neon{border:3px solid #33e6d2;box-shadow:0 0 5px #33e6d2}.accentRange{--fill:50%}.rangeBlock input.accentRange[type="range"]::-webkit-slider-runnable-track{height:8px;background:linear-gradient(to right,#ff709f 0 var(--fill),#ded5db var(--fill) 100%);border:1px solid #cdbfc8!important}.rangeBlock input.accentRange[type="range"]::-moz-range-track{height:8px;background:#ded5db;border:1px solid #cdbfc8!important}.rangeBlock input.accentRange[type="range"]::-moz-range-progress{height:8px;background:#ff709f}
+footer{max-width:1260px;margin:auto;padding:0 4vw 30px;text-align:center;color:#a299a0;font-size:10px}
+@media(max-width:850px){main{grid-template-columns:1fr}.previewWrap{min-height:430px}}
+.rangeBlock .rangeLabel{width:100%}
+/* 세 슬라이더를 완전히 같은 규격으로 표시 */
+.rangeBlock{width:100%;display:block;margin-top:12px}
+.rangeBlock .rangeLabel{width:100%;display:flex;justify-content:space-between;align-items:center}
+.rangeBlock input[type="range"]{
+  -webkit-appearance:none;appearance:none;
+  display:block;width:100%;height:18px;margin:4px 0 0;padding:0;
+  border:0!important;outline:0!important;background:transparent!important;
+  box-shadow:none!important;
+}
+.rangeBlock input[type="range"]::-webkit-slider-runnable-track{
+  width:100%;height:6px;border:0!important;border-radius:999px;background:#f0e8ed;
+  box-shadow:none!important;
+}
+.rangeBlock input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:16px;height:16px;margin-top:-5px;
+  border:0!important;outline:0!important;border-radius:50%;background:#ff709f;
+  box-shadow:none!important;
+}
+.rangeBlock input[type="range"]::-moz-range-track{
+  width:100%;height:6px;border:0!important;border-radius:999px;background:#f0e8ed;
+  box-shadow:none!important;
+}
+.rangeBlock input[type="range"]::-moz-range-progress{
+  height:6px;border:0!important;border-radius:999px;background:#ff9cbd;
+}
+.rangeBlock input[type="range"]::-moz-range-thumb{
+  width:16px;height:16px;border:0!important;outline:0!important;border-radius:50%;
+  background:#ff709f;box-shadow:none!important;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1><span class="accent">짤 / 카드</span> 스튜디오</h1>
+  <p>사진을 불러오고 문구를 꾸며, 나만의 카드 이미지를 간단하게 만들어보세요.</p>
+</header>
+
+<main>
+<section class="panel controls">
+<div class="cardBox pink"><div class="cardTitle"><span class="badgeNum">1</span> 이미지 불러오기</div><div class="fileDrop"><strong>사진을 선택해 주세요</strong><span class="sub">PNG / JPEG 파일을 사용할 수 있어요.</span><input id="imageInput" type="file" accept="image/png,image/jpeg"></div><div id="fileStatus" class="status"></div></div>
+<div class="cardBox lav"><div class="cardTitle"><span class="badgeNum">2</span> 문구 편집</div><textarea id="textInput" rows="4" placeholder="예: 오늘도 달콤한 하루 🍦"></textarea><div style="height:7px"></div><div class="row"><div><label>가로 위치 <b id="xVal">50</b>%</label><input id="xInput" type="range" min="0" max="100" value="50"></div><div><label>세로 위치 <b id="yVal">82</b>%</label><input id="yInput" type="range" min="0" max="100" value="82"></div></div><div style="height:7px"></div><div class="row"><div><label>글자 크기 <b id="sizeVal">42</b>px</label><input id="sizeInput" type="range" min="12" max="120" value="42"></div><div><label>문구 색상</label><div class="colorRow"><input id="colorInput" type="color" value="#ffffff"><span id="colorText">#ffffff</span></div></div></div></div>
+<div class="cardBox yellow"><div class="cardTitle"><span class="badgeNum">3</span> 비율과 저장</div><label>이미지 비율</label><div class="ratioBtns"><button data-ratio="1">1:1</button><button data-ratio="0.8" class="active">4:5</button><button data-ratio="0.5625">9:16</button></div><div style="height:8px"></div><label>저장 형식</label><select id="formatInput"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option></select><button id="downloadBtn" class="primary" style="width:100%;margin-top:8px">🍦 이미지 저장하기</button><div class="help" style="margin-top:6px">미리보기와 저장 파일이 같은 위치에 만들어집니다.</div></div></div>
+<div class="cardBox lav compactCard"><div class="cardTitle"><span class="badgeNum">4</span> 템플릿 관리</div><div class="stepHelp">지금 만든 설정을 이름과 함께 저장하고 다음에 다시 불러올 수 있어요.</div><label for="templateName">템플릿 이름</label><div class="templateCreate"><input id="templateName" type="text" placeholder="예: 인스타 공지 카드"><button id="saveTemplateBtn" class="ok">저장하기</button></div><div id="templateList" class="templates"></div><div class="templateTools"><button id="exportBtn">템플릿 파일 저장<small>저장한 템플릿을 파일로 보관</small></button><button id="jsonOpenBtn">템플릿 파일 불러오기<small>보관한 템플릿을 다시 가져오기</small></button><input id="jsonInput" type="file" accept="application/json,.json" hidden></div><div id="jsonStatus" class="status"></div></div>
+</section>
+<section class="workspace"><div class="panel previewPanel"><div class="previewHead"><h2>🍧 카드 미리보기</h2><span class="help">입력하는 즉시 반영돼요</span></div><div class="previewWrap" id="previewWrap"><div id="stage"><canvas id="canvas"></canvas><div id="textLayer"><div id="caption"></div><div id="sourceCaption"></div></div></div><div id="emptyState" class="empty">이미지를 업로드하면 달콤한 카드 만들기가 시작돼요! 🍨</div></div></div>
+<div class="panel underPreview"><div class="cardBox pink compactCard"><div class="cardTitle"><span class="badgeNum">5</span> 사진 오버레이</div><div class="fileDrop"><strong>두 번째 사진을 올려 보세요</strong><span class="sub">PNG / JPEG · 카드 위에 겹쳐집니다.</span><input id="overlayInput" type="file" accept="image/png,image/jpeg"></div><div id="overlayStatus" class="status"></div><div class="rangeBlock"><div class="rangeLabel"><label>크기</label><span class="rangeValue"><b id="overlaySizeVal">35</b>%</span></div><input id="overlaySizeInput" class="accentRange" type="range" min="10" max="100" value="35"></div><div class="row"><div><label>가로 위치 <b id="overlayXVal">50</b>%</label><input id="overlayXInput" type="range" min="0" max="100" value="50"></div><div><label>세로 위치 <b id="overlayYVal">50</b>%</label><input id="overlayYInput" type="range" min="0" max="100" value="50"></div></div><div class="rangeBlock"><div class="rangeLabel"><label>투명도</label><span class="rangeValue"><b id="overlayOpacityVal">100</b>%</span></div><input id="overlayOpacityInput" class="accentRange" type="range" min="10" max="100" value="100"></div></div></div>
+<div class="panel underPreview"><div class="cardBox yellow compactCard"><div class="cardTitle"><span class="badgeNum">6</span> 프레임 설정</div><div class="framePicker"><button id="frameToggle" class="frameToggle" type="button" aria-expanded="false"><span id="frameSelected">없음</span><span>⌄</span></button><div id="frameMenu" class="frameMenu"><button class="active" data-frame="none"><span class="frameSwatch"></span>없음</button><button data-frame="pink"><span class="frameSwatch sw-pink"></span>소프트 핑크</button><button data-frame="film"><span class="frameSwatch sw-film"></span>필름</button><button data-frame="polaroid"><span class="frameSwatch sw-polaroid"></span>폴라로이드</button><button data-frame="white"><span class="frameSwatch sw-white"></span>미니멀 화이트</button><button data-frame="black"><span class="frameSwatch sw-black"></span>블랙 라인</button><button data-frame="gold"><span class="frameSwatch sw-gold"></span>클래식 골드</button><button data-frame="check"><span class="frameSwatch sw-check"></span>핑크 체크</button><button data-frame="dot"><span class="frameSwatch sw-dot"></span>퍼플 도트</button><button data-frame="neon"><span class="frameSwatch sw-neon"></span>민트 네온</button></div></div><div class="overlayPreview">버튼을 누르면 10가지 프레임 목록이 열립니다.</div></div></div>
+<div class="panel underPreview"><div class="cardBox mint sourcePanel"><div class="cardTitle"><span class="badgeNum">7</span> 출처 표시</div><label>사진 출처 또는 설명</label><input id="sourceInput" type="text" placeholder="예: 직접 촬영 / 출처: example.com"><div class="rangeBlock sourceSizeBlock"><div class="rangeLabel"><label>출처 글자 크기</label><span class="rangeValue"><b id="sourceSizeVal">16</b>px</span></div><input id="sourceSizeInput" type="range" min="10" max="40" value="16"></div><div class="sourceHint">입력한 내용은 완성 이미지의 오른쪽 아래에 함께 표시됩니다.</div></div></div>
+</section>
+</main>
+
+<footer>🍦 짤·카드 스튜디오 · PNG/JPEG 편집 · 사진 레이어 꾸미기 · 프레임 · 템플릿 CRUD · 출처 표시</footer>
+
+<script>
+const $=s=>document.querySelector(s);
+const state={image:null,imageName:"",overlay:null,overlayName:"",ratio:.8,frame:"none",templates:JSON.parse(localStorage.getItem("jjalStudioTemplates")||"[]")};
+const canvas=$("#canvas"),ctx=canvas.getContext("2d"),stage=$("#stage"),caption=$("#caption");
+
+function edit(){
+ return {text:$("#textInput").value,x:+$("#xInput").value,y:+$("#yInput").value,size:+$("#sizeInput").value,color:$("#colorInput").value,ratio:state.ratio,source:$("#sourceInput").value,sourceSize:+$("#sourceSizeInput").value,overlaySize:+$("#overlaySizeInput").value,overlayX:+$("#overlayXInput").value,overlayY:+$("#overlayYInput").value,overlayOpacity:+$("#overlayOpacityInput").value,frame:state.frame};
+}
+function setStatus(el,msg,type=""){el.textContent=msg;el.className="status "+type}
+function setRatio(r){state.ratio=r;document.querySelectorAll("[data-ratio]").forEach(b=>b.classList.toggle("active",+b.dataset.ratio===r));render()}
+document.querySelectorAll("[data-ratio]").forEach(b=>b.onclick=()=>setRatio(+b.dataset.ratio));
+const frameNames={none:"없음",pink:"소프트 핑크",film:"필름",polaroid:"폴라로이드",white:"미니멀 화이트",black:"블랙 라인",gold:"클래식 골드",check:"핑크 체크",dot:"퍼플 도트",neon:"민트 네온"};
+function setFrame(frame){state.frame=frame;document.querySelectorAll("[data-frame]").forEach(b=>b.classList.toggle("active",b.dataset.frame===frame));$("#frameSelected").textContent=frameNames[frame]||"없음";render()}
+$("#frameToggle").onclick=()=>{const menu=$("#frameMenu"),open=!menu.classList.contains("open");menu.classList.toggle("open",open);$("#frameToggle").setAttribute("aria-expanded",String(open))};
+document.querySelectorAll("[data-frame]").forEach(b=>b.onclick=()=>{setFrame(b.dataset.frame);$("#frameMenu").classList.remove("open");$("#frameToggle").setAttribute("aria-expanded","false")});
+
+function syncLabels(){
+ $("#xVal").textContent=$("#xInput").value;
+ $("#yVal").textContent=$("#yInput").value;
+ $("#sizeVal").textContent=$("#sizeInput").value;
+ $("#colorText").textContent=$("#colorInput").value;
+ if($("#sourceSizeVal")) $("#sourceSizeVal").textContent=$("#sourceSizeInput").value;
+ $("#overlaySizeVal").textContent=$("#overlaySizeInput").value;
+ $("#overlayXVal").textContent=$("#overlayXInput").value;
+ $("#overlayYVal").textContent=$("#overlayYInput").value;
+ $("#overlayOpacityVal").textContent=$("#overlayOpacityInput").value;
+ ["overlaySizeInput","overlayOpacityInput"].forEach(id=>{const input=$("#"+id),fill=(+input.value-+input.min)/(+input.max-+input.min)*100;input.style.setProperty("--fill",fill+"%")});
+}
+["textInput","xInput","yInput","sizeInput","colorInput","sourceInput","sourceSizeInput","overlaySizeInput","overlayXInput","overlayYInput","overlayOpacityInput"].forEach(id=>$("#"+id).addEventListener("input",()=>{syncLabels();render()}));
+
+$("#imageInput").addEventListener("change",e=>{
+ const file=e.target.files[0]; if(!file)return;
+ if(!["image/png","image/jpeg"].includes(file.type)){setStatus($("#fileStatus"),"거부됨: PNG 또는 JPEG 파일만 업로드할 수 있습니다. 기존 작업은 유지됩니다.","error");e.target.value="";return;}
+ const reader=new FileReader(); reader.onload=()=>{const img=new Image();img.onload=()=>{state.image=img;state.imageName=file.name;setStatus($("#fileStatus"),`불러오기 완료: ${file.name}`,"success");$("#emptyState").style.display="none";render()};img.src=reader.result};reader.readAsDataURL(file);
+});
+$("#overlayInput").addEventListener("change",e=>{
+ const file=e.target.files[0];if(!file)return;
+ if(!["image/png","image/jpeg"].includes(file.type)){setStatus($("#overlayStatus"),"거부됨: PNG 또는 JPEG 파일만 올릴 수 있습니다.","error");e.target.value="";return;}
+ const reader=new FileReader();reader.onload=()=>{const img=new Image();img.onload=()=>{state.overlay=img;state.overlayName=file.name;setStatus($("#overlayStatus"),`오버레이 완료: ${file.name}`,"success");render()};img.src=reader.result};reader.readAsDataURL(file);
+});
+function targetSize(){
+ if(!state.image)return [600,750];
+ const w=state.image.naturalWidth,h=state.image.naturalHeight,ratio=state.ratio;
+ if(w/h>ratio)return [Math.round(h*ratio),h]; return [w,Math.round(w/ratio)];
+}
+function render(){
+ if(!state.image)return;
+ const [w,h]=targetSize(); canvas.width=w;canvas.height=h;
+ const maxW=Math.min(720, $("#previewWrap").clientWidth-50), maxH=620;
+ let dw=Math.min(maxW,w),dh=dw/ratioSafe(); if(dh>maxH){dh=maxH;dw=dh*ratioSafe()}
+ stage.style.width=Math.round(dw)+"px";stage.style.height=Math.round(dh)+"px";
+ drawTo(ctx,w,h,edit());
+ const e=edit();caption.style.left=e.x+"%";caption.style.top=e.y+"%";caption.style.fontSize=(e.size*(dw/w))+"px";caption.style.color=e.color;caption.textContent=e.text;$("#sourceCaption").textContent=e.source||"";
+}
+function ratioSafe(){return state.ratio}
+function coverImage(c,w,h){
+ const iw=state.image.naturalWidth,ih=state.image.naturalHeight,s=Math.max(w/iw,h/ih),sw=iw*s,sh=ih*s;
+ c.drawImage(state.image,(w-sw)/2,(h-sh)/2,sw,sh);
+}
+function drawText(c,w,h,e){
+ c.save();c.fillStyle=e.color;c.textAlign="center";c.textBaseline="middle";c.font=`700 ${e.size}px system-ui, sans-serif`;
+ c.shadowColor="rgba(0,0,0,.28)";c.shadowBlur=Math.max(2,e.size*.12);c.shadowOffsetY=Math.max(1,e.size*.05);
+ const max=w*.9, lines=[]; for(const para of (e.text||"").split("\n")){let line="";for(const ch of para){if(c.measureText(line+ch).width>max&&line){lines.push(line);line=ch}else line+=ch}lines.push(line)}
+ const lh=e.size*1.15, total=lines.length*lh;lines.forEach((line,i)=>c.fillText(line,w*e.x/100,h*e.y/100-total/2+lh*(i+.5)));c.restore();
+}
+function drawOverlay(c,w,h,e){if(!state.overlay)return;const iw=state.overlay.naturalWidth,ih=state.overlay.naturalHeight,dw=w*(e.overlaySize/100),dh=dw*(ih/iw),x=w*(e.overlayX/100)-dw/2,y=h*(e.overlayY/100)-dh/2;c.save();c.globalAlpha=e.overlayOpacity/100;c.drawImage(state.overlay,x,y,dw,dh);c.restore()}
+function drawFrame(c,w,h,type){if(type==="none")return;c.save();const m=Math.min(w,h),t=Math.max(16,Math.round(m*.045));if(type==="pink"){c.strokeStyle="#ff8fb4";c.lineWidth=t;c.strokeRect(t/2,t/2,w-t,h-t);c.strokeStyle="#fff5f8";c.lineWidth=Math.max(3,t*.12);c.strokeRect(t,t,w-t*2,h-t*2)}if(type==="film"){const ft=Math.max(28,Math.round(m*.075));c.fillStyle="#27232a";c.fillRect(0,0,w,ft);c.fillRect(0,h-ft,w,ft);c.fillStyle="#fff";const hole=Math.max(8,ft*.28),gap=hole*1.5;for(let x=gap;x<w-gap;x+=gap*2){c.fillRect(x,(ft-hole)/2,hole,hole);c.fillRect(x,h-ft+(ft-hole)/2,hole,hole)}}if(type==="polaroid"){const pt=Math.max(24,Math.round(m*.06));c.fillStyle="#fff";c.fillRect(0,0,w,pt);c.fillRect(0,h-pt*1.8,w,pt*1.8);c.fillRect(0,0,pt,h);c.fillRect(w-pt,0,pt,h)}if(type==="white"){c.strokeStyle="#fff";c.lineWidth=t;c.strokeRect(t/2,t/2,w-t,h-t);c.strokeStyle="rgba(0,0,0,.16)";c.lineWidth=2;c.strokeRect(t,t,w-t*2,h-t*2)}if(type==="black"){c.strokeStyle="#202025";c.lineWidth=Math.max(10,t*.65);c.strokeRect(t/2,t/2,w-t,h-t)}if(type==="gold"){c.strokeStyle="#c99a3b";c.lineWidth=t;c.strokeRect(t/2,t/2,w-t,h-t);c.strokeStyle="#fff1bd";c.lineWidth=Math.max(3,t*.18);c.strokeRect(t,t,w-t*2,h-t*2)}if(type==="check"){const s=Math.max(18,t);for(let x=0;x<w;x+=s){c.fillStyle=(x/s)%2?"#fff0f5":"#ff7fa9";c.fillRect(x,0,s,t);c.fillRect(x,h-t,s,t)}for(let y=t;y<h-t;y+=s){c.fillStyle=(y/s)%2?"#fff0f5":"#ff7fa9";c.fillRect(0,y,t,s);c.fillRect(w-t,y,t,s)}}if(type==="dot"){c.fillStyle="#8d79d6";const gap=Math.max(18,t*1.15),r=Math.max(4,t*.22);for(let x=gap/2;x<w;x+=gap){c.beginPath();c.arc(x,t/2,r,0,Math.PI*2);c.fill();c.beginPath();c.arc(x,h-t/2,r,0,Math.PI*2);c.fill()}for(let y=gap/2;y<h;y+=gap){c.beginPath();c.arc(t/2,y,r,0,Math.PI*2);c.fill();c.beginPath();c.arc(w-t/2,y,r,0,Math.PI*2);c.fill()}}if(type==="neon"){c.shadowColor="#33e6d2";c.shadowBlur=t;c.strokeStyle="#55f5e3";c.lineWidth=Math.max(6,t*.35);c.strokeRect(t/2,t/2,w-t,h-t)}c.restore()}
+function drawTo(c,w,h,e){c.clearRect(0,0,w,h);coverImage(c,w,h);drawOverlay(c,w,h,e);drawText(c,w,h,e);if(e.source){c.save();const fs=Math.max(10,Math.round(e.sourceSize||16));c.font=`600 ${fs}px system-ui,sans-serif`;c.textAlign="right";c.textBaseline="bottom";const pad=Math.max(8,fs*.55),max=w*.92;let lines=[],line="";for(const word of e.source.split(" ")){const next=line?line+" "+word:word;if(c.measureText(next).width>max&&line){lines.push(line);line=word}else line=next}if(line)lines.push(line);const lh=fs*1.25,x=w-pad,y=h-pad;for(let i=lines.length-1;i>=0;i--){const yy=y-(lines.length-1-i)*lh;c.fillStyle="rgba(0,0,0,.48)";c.fillRect(x-c.measureText(lines[i]).width-pad,yy-fs-pad*.45,c.measureText(lines[i]).width+pad*2,fs+pad*.75);c.fillStyle="#fff";c.fillText(lines[i],x,yy)}c.restore()}drawFrame(c,w,h,e.frame)}
+$("#downloadBtn").onclick=()=>{
+ if(!state.image)return setStatus($("#fileStatus"),"먼저 PNG 또는 JPEG 이미지를 불러와 주세요.","error");
+ const [w,h]=targetSize(),out=document.createElement("canvas");out.width=w;out.height=h;drawTo(out.getContext("2d"),w,h,edit());
+ const type=$("#formatInput").value,a=document.createElement("a");a.download=`card-${w}x${h}.${type==="image/png"?"png":"jpg"}`;a.href=out.toDataURL(type,type==="image/jpeg"?.95:1);a.click();
+};
+function persist(){localStorage.setItem("jjalStudioTemplates",JSON.stringify(state.templates))}
+function renderTemplates(){
+ const box=$("#templateList");box.innerHTML="";
+ if(!state.templates.length){box.innerHTML='<div class="help">저장된 템플릿이 없습니다.</div>';return}
+ state.templates.forEach(t=>{const d=document.createElement("div");d.className="item";d.innerHTML=`<strong>${escapeHtml(t.name)}</strong><span class="meta">${t.edit.ratio===1?"1:1":t.edit.ratio===.8?"4:5":"9:16"}</span><div class="templateActions"><button class="tiny" data-load="${t.id}">불러오기</button><button class="tiny" data-update="${t.id}">현재값으로 수정</button><button class="tiny danger" data-del="${t.id}">삭제</button></div>`;box.appendChild(d)});
+ box.querySelectorAll("[data-load]").forEach(b=>b.onclick=()=>loadTemplate(b.dataset.load));
+ box.querySelectorAll("[data-update]").forEach(b=>b.onclick=()=>updateTemplate(b.dataset.update));
+ box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{state.templates=state.templates.filter(t=>t.id!==b.dataset.del);persist();renderTemplates()});
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+$("#saveTemplateBtn").onclick=()=>{
+ const name=$("#templateName").value.trim();if(!name)return alert("템플릿 이름을 입력하세요.");
+ state.templates.push({id:crypto.randomUUID(),name,edit:edit(),createdAt:new Date().toISOString()});persist();renderTemplates();$("#templateName").value="";
+};
+function applyEdit(e){$("#textInput").value=e.text??"";$("#xInput").value=e.x??50;$("#yInput").value=e.y??82;$("#sizeInput").value=e.size??42;$("#colorInput").value=e.color??"#ffffff";$("#sourceInput").value=e.source??"";$("#sourceSizeInput").value=e.sourceSize??16;$("#overlaySizeInput").value=e.overlaySize??35;$("#overlayXInput").value=e.overlayX??50;$("#overlayYInput").value=e.overlayY??50;$("#overlayOpacityInput").value=e.overlayOpacity??100;setFrame(e.frame??"none");setRatio(e.ratio??.8);syncLabels();render()}
+function loadTemplate(id){const t=state.templates.find(t=>t.id===id);if(t)applyEdit(t.edit)}
+function updateTemplate(id){const t=state.templates.find(t=>t.id===id);if(t){t.edit=edit();t.updatedAt=new Date().toISOString();persist();renderTemplates()}}
+$("#exportBtn").onclick=()=>{const data={version:1,templates:state.templates};const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download="jjal-card-templates.json";a.click();URL.revokeObjectURL(a.href)}
+$("#jsonOpenBtn").onclick=()=>$("#jsonInput").click();
+$("#jsonInput").addEventListener("change",e=>{
+ const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{
+  try{const data=JSON.parse(r.result);if(!data||!Array.isArray(data.templates))throw Error("templates 배열이 없습니다.");
+   for(const t of data.templates){if(!t.id||!t.name||!t.edit||typeof t.edit.text!=="string"||typeof t.edit.x!=="number"||typeof t.edit.y!=="number"||typeof t.edit.size!=="number"||typeof t.edit.color!=="string")throw Error("필수 항목이 빠졌거나 형식이 올바르지 않습니다.")}
+   state.templates=data.templates;persist();renderTemplates();setStatus($("#jsonStatus"),"정상 JSON을 가져왔습니다. 템플릿이 복원되었습니다.","success");
+  }catch(err){setStatus($("#jsonStatus"),"거부됨: "+err.message+" 기존 템플릿은 유지됩니다.","error")}
+ };r.readAsText(f);e.target.value="";
+});
+
+renderTemplates();syncLabels();
+window.addEventListener("resize",render);
+</script>
+</body>
+</html>
