@@ -1,0 +1,5 @@
+import {spawn} from 'node:child_process';
+const server=spawn(process.execPath,['--import','./scripts/sites-env.mjs','./node_modules/wrangler/bin/wrangler.js','dev','--config','dist/server/wrangler.json','--local','--persist-to','.wrangler/state','--ip','127.0.0.1','--port','8787','--inspector-port','0'],{stdio:['ignore','pipe','pipe']});
+const ready=new Promise((resolve,reject)=>{const timeout=setTimeout(()=>reject(new Error('Server start timed out')),40000);server.stdout.on('data',chunk=>{if(chunk.toString().includes('Ready on')){clearTimeout(timeout);resolve();}});server.stderr.on('data',s=>{if(/Error/.test(s.toString()))process.stderr.write(s);});server.on('exit',c=>reject(new Error('Server exited '+c)));});
+const run=script=>new Promise((resolve,reject)=>{const child=spawn(process.execPath,[script],{stdio:'inherit'});child.on('exit',c=>c===0?resolve():reject(new Error(script+' exited '+c)));});
+try{await ready;await run('tests/auth.integration.mjs');if(process.env.RUN_BROWSER_QA==='1')await run('tests/ui.smoke.mjs');}finally{server.kill('SIGTERM');}

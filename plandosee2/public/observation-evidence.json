@@ -1,0 +1,112 @@
+{
+  "kind": "ACTUAL_USER_EXPORT_AND_SCREENSHOT",
+  "dates": [
+    "2026-10-01",
+    "2026-10-02",
+    "2026-10-03",
+    "2026-10-04",
+    "2026-10-05"
+  ],
+  "logs": [
+    {
+      "date": "2026-10-01",
+      "minutes": 120,
+      "note": "정처기 기본서 2장 넘기기",
+      "recordedAt": "2026-10-01T07:23:06.417Z",
+      "updatedAt": "2026-10-01T07:23:06.417Z",
+      "rule": "예상 시간이 긴 할 일부터 시작하기"
+    },
+    {
+      "date": "2026-10-02",
+      "minutes": 180,
+      "note": "정처기 기본서 3장 시작해서 할 수 있는 만큼 하기",
+      "recordedAt": "2026-10-02T07:26:57.106Z",
+      "updatedAt": "2026-10-02T07:26:57.106Z",
+      "rule": "예상 시간이 긴 할 일부터 시작하기"
+    },
+    {
+      "date": "2026-10-03",
+      "minutes": 300,
+      "note": "정처기 기본서 1권을 끝냈다",
+      "recordedAt": "2026-10-03T11:15:57.534Z",
+      "updatedAt": "2026-10-03T11:15:57.534Z",
+      "rule": "너무 조급해하지 않기"
+    },
+    {
+      "date": "2026-10-04",
+      "minutes": 270,
+      "note": "정처기 프로그래밍 언어 전까지 마쳤다",
+      "recordedAt": "2026-10-04T13:26:57.962Z",
+      "updatedAt": "2026-10-04T13:26:57.962Z",
+      "rule": "너무 조급해하지 않기"
+    },
+    {
+      "date": "2026-10-05",
+      "minutes": 120,
+      "note": "5일중에 제일 못하긴 했지만 갈피가 잡히는 기분이다",
+      "recordedAt": "2026-10-05T13:33:20.523Z",
+      "updatedAt": "2026-10-05T13:33:20.523Z",
+      "rule": "너무 조급해하지 않기"
+    }
+  ],
+  "ruleChange": {
+    "id": 3164457184000132,
+    "changedAt": "2026-10-03T11:15:44.136Z",
+    "oldRule": "예상 시간이 긴 할 일부터 시작하기",
+    "newRule": "너무 조급해하지 않기",
+    "reason": "내가 조급한 마음에 뭔가 하나씩 빼먹으면서 하고 있는 것 같다고 느껴졌다",
+    "baselineDates": [
+      "2026-10-01",
+      "2026-10-02"
+    ]
+  },
+  "observation": {
+    "question": "작은 할 일부터 시작하면 하루 실제 공부 시간을 늘릴 수 있을까요?",
+    "metric": "하루 실제 공부 시간",
+    "unit": "분",
+    "calculation": "합계 = 유효한 날짜의 분 합. 평균 = 합계 ÷ 유효한 날짜 수. 소수점 첫째 자리 반올림.",
+    "initialRule": "예상 시간이 긴 할 일부터 시작하기"
+  },
+  "calculation": {
+    "dailyMinutes": [
+      120,
+      180,
+      300,
+      270,
+      120
+    ],
+    "sum": 990,
+    "average": 198.0,
+    "beforeSum": 300,
+    "beforeAverage": 150.0,
+    "afterSum": 690,
+    "afterAverage": 230.0,
+    "averageDifference": 80.0
+  },
+  "checks": {
+    "fiveDistinctSeoulDays": true,
+    "recordDatesMatchServerTimestamps": true,
+    "changeBetweenSecondAndThirdRecord": true,
+    "baselineDatesMatch": true,
+    "screenshotValuesMatch": true,
+    "legacyTasksPreserved": 14,
+    "legacyExecutionsPreserved": 7,
+    "legacyVersionsPreserved": 4
+  },
+  "integrity": {
+    "exportSha256": "39e720da04b6868a7a400e11eeb315e1aed7c6264111469140d444c2d61ee5db",
+    "screenshotSha256": "95403ca55c8155b088bd06783b615d5768150180badddd777f8e30f3c6fc87da"
+  },
+  "limitation": "Original question concerns shorter tasks; actual changed rule is not rushing. Neither a causal effect nor a test of shorter-task-first is claimed.",
+  "timingScope": {
+    "recordOrderSatisfied": true,
+    "doesNotProveRuleChangedBeforeThirdDayStudy": true,
+    "thirdDayExecutionsBeforeRuleChange": [
+      {
+        "taskTitle": "정처기 실기 공부",
+        "durationMinutes": 180,
+        "endedAt": "2026-10-03T11:14:11.732Z"
+      }
+    ]
+  }
+}
