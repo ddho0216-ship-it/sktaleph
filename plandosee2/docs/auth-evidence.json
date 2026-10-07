@@ -1,0 +1,795 @@
+{
+  "origin": "http://127.0.0.1:8787",
+  "runAt": "2026-10-06T00:58:21.629Z",
+  "testCount": 50,
+  "checks": [
+    {
+      "name": "비로그인 직접 목록 요청 거절",
+      "request": {
+        "method": "GET",
+        "path": "/api/state"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.076Z"
+    },
+    {
+      "name": "비로그인 자료 화면은 로그인으로 이동",
+      "request": {
+        "method": "GET",
+        "path": "/"
+      },
+      "response": {
+        "status": 307,
+        "body": ""
+      },
+      "checkedAt": "2026-10-06T00:58:20.132Z"
+    },
+    {
+      "name": "계정 A 가입",
+      "request": {
+        "method": "POST",
+        "path": "/api/auth",
+        "action": "register",
+        "username": "A",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.207Z"
+    },
+    {
+      "name": "계정 A 로그인",
+      "request": {
+        "action": "login",
+        "username": "A",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.272Z"
+    },
+    {
+      "name": "계정 A 자료 등록",
+      "request": {
+        "action": "add_task",
+        "planId": 259369826100708,
+        "title": "계정 A 전용 검증 자료"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.317Z"
+    },
+    {
+      "name": "계정 B 가입",
+      "request": {
+        "method": "POST",
+        "path": "/api/auth",
+        "action": "register",
+        "username": "B",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 201,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.376Z"
+    },
+    {
+      "name": "계정 B 로그인",
+      "request": {
+        "action": "login",
+        "username": "B",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.446Z"
+    },
+    {
+      "name": "계정 B 자료 등록",
+      "request": {
+        "action": "add_task",
+        "planId": 2221999842532996,
+        "title": "계정 B 전용 검증 자료"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.478Z"
+    },
+    {
+      "name": "같은 아이디 중복 가입 거절",
+      "request": {
+        "action": "register",
+        "username": "A",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 409,
+        "body": {
+          "error": "가입할 수 없는 아이디입니다. 다른 아이디를 사용해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.489Z"
+    },
+    {
+      "name": "올바른 비밀번호 성공",
+      "request": {
+        "action": "login",
+        "username": "A",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.549Z"
+    },
+    {
+      "name": "로컬 만료 세션 요청 거절",
+      "request": {
+        "method": "GET",
+        "path": "/api/state",
+        "session": "[가림]",
+        "fixture": "LOCAL_DB_EXPIRES_AT_IN_PAST"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.633Z"
+    },
+    {
+      "name": "A 본인 자료 읽기 성공",
+      "request": {
+        "method": "GET",
+        "path": "/api/state?id=321254237425076",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 321254237425076,
+          "planId": 259369826100708,
+          "createdAt": "2026-10-06T00:58:20.306Z",
+          "title": "계정 A 전용 검증 자료",
+          "status": "todo",
+          "estimatedMinutes": 20,
+          "priority": 2,
+          "tags": "",
+          "plannedDate": "2026-10-01",
+          "dueDate": null,
+          "updatedAt": "2026-10-06T00:58:20.306Z"
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.659Z"
+    },
+    {
+      "name": "A→B 읽기 거절",
+      "request": {
+        "method": "GET",
+        "path": "/api/state?id=1675144673698500",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.670Z"
+    },
+    {
+      "name": "A→B update_task 거절",
+      "request": {
+        "method": "POST",
+        "path": "/api/state",
+        "action": "update_task",
+        "id": 1675144673698500,
+        "title": "허용되면 안 되는 변경",
+        "plannedDate": "2026-10-01",
+        "estimatedMinutes": 20,
+        "priority": 2,
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.680Z"
+    },
+    {
+      "name": "A→B delete_task 거절",
+      "request": {
+        "method": "POST",
+        "path": "/api/state",
+        "action": "delete_task",
+        "id": 1675144673698500,
+        "title": "허용되면 안 되는 변경",
+        "plannedDate": "2026-10-01",
+        "estimatedMinutes": 20,
+        "priority": 2,
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.692Z"
+    },
+    {
+      "name": "A 주소·헤더 소유자 위조는 무시됨",
+      "request": {
+        "path": "/api/state?userId=audit_b_88b0987ea5",
+        "headers": {
+          "x-user-id": "audit_b_88b0987ea5"
+        },
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "taskIds": [
+            321254237425076
+          ]
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.702Z"
+    },
+    {
+      "name": "B 거절 전후 자료 건수·내용 동일",
+      "request": {
+        "actor": "A",
+        "target": "B"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "beforeCount": 1,
+          "afterCount": 1,
+          "payloadUnchanged": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.712Z"
+    },
+    {
+      "name": "A 목록에 B 자료 없음",
+      "request": {
+        "method": "GET",
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "taskIds": [
+            321254237425076
+          ]
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.728Z"
+    },
+    {
+      "name": "A 본인 자료 수정 성공",
+      "request": {
+        "action": "update_task",
+        "id": 321254237425076
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.741Z"
+    },
+    {
+      "name": "B 본인 자료 읽기 성공",
+      "request": {
+        "method": "GET",
+        "path": "/api/state?id=1675144673698500",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "id": 1675144673698500,
+          "planId": 2221999842532996,
+          "createdAt": "2026-10-06T00:58:20.465Z",
+          "title": "계정 B 전용 검증 자료",
+          "status": "todo",
+          "estimatedMinutes": 20,
+          "priority": 2,
+          "tags": "",
+          "plannedDate": "2026-10-01",
+          "dueDate": null,
+          "updatedAt": "2026-10-06T00:58:20.465Z"
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.762Z"
+    },
+    {
+      "name": "B→A 읽기 거절",
+      "request": {
+        "method": "GET",
+        "path": "/api/state?id=321254237425076",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.772Z"
+    },
+    {
+      "name": "B→A update_task 거절",
+      "request": {
+        "method": "POST",
+        "path": "/api/state",
+        "action": "update_task",
+        "id": 321254237425076,
+        "title": "허용되면 안 되는 변경",
+        "plannedDate": "2026-10-01",
+        "estimatedMinutes": 20,
+        "priority": 2,
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.782Z"
+    },
+    {
+      "name": "B→A delete_task 거절",
+      "request": {
+        "method": "POST",
+        "path": "/api/state",
+        "action": "delete_task",
+        "id": 321254237425076,
+        "title": "허용되면 안 되는 변경",
+        "plannedDate": "2026-10-01",
+        "estimatedMinutes": 20,
+        "priority": 2,
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.791Z"
+    },
+    {
+      "name": "B 주소·헤더 소유자 위조는 무시됨",
+      "request": {
+        "path": "/api/state?userId=audit_a_88b0987ea5",
+        "headers": {
+          "x-user-id": "audit_a_88b0987ea5"
+        },
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "taskIds": [
+            1675144673698500
+          ]
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.807Z"
+    },
+    {
+      "name": "A 거절 전후 자료 건수·내용 동일",
+      "request": {
+        "actor": "B",
+        "target": "A"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "beforeCount": 1,
+          "afterCount": 1,
+          "payloadUnchanged": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.817Z"
+    },
+    {
+      "name": "B 목록에 A 자료 없음",
+      "request": {
+        "method": "GET",
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "taskIds": [
+            1675144673698500
+          ]
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.825Z"
+    },
+    {
+      "name": "B 본인 자료 수정 성공",
+      "request": {
+        "action": "update_task",
+        "id": 1675144673698500
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.839Z"
+    },
+    {
+      "name": "본문 소유자 위조와 외부 계획 추가 거절",
+      "request": {
+        "action": "add_task",
+        "planId": 2221999842532996,
+        "userId": "audit_b_88b0987ea5",
+        "owner": "audit_b_88b0987ea5"
+      },
+      "response": {
+        "status": 404,
+        "body": {
+          "error": "자료를 찾을 수 없습니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.852Z"
+    },
+    {
+      "name": "본문 타인 소유자 값은 본인 자료 소유권을 바꾸지 않음",
+      "request": {
+        "action": "update_task",
+        "id": 321254237425076,
+        "userId": "B",
+        "owner": "B"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:20.878Z"
+    },
+    {
+      "name": "잘못된 비밀번호 안내",
+      "request": {
+        "action": "login",
+        "username": "A",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "아이디 또는 비밀번호를 확인해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.004Z"
+    },
+    {
+      "name": "없는 아이디 안내",
+      "request": {
+        "action": "login",
+        "username": "없는 시험 아이디",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "아이디 또는 비밀번호를 확인해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.004Z"
+    },
+    {
+      "name": "외부 Origin 변경 요청 거절",
+      "request": {
+        "origin": "https://unrelated.example",
+        "action": "delete_task"
+      },
+      "response": {
+        "status": 403,
+        "body": {
+          "error": "허용되지 않은 요청입니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.011Z"
+    },
+    {
+      "name": "유효하지 않은 공부 시간 거절",
+      "request": {
+        "minutes": ""
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "공부 시간을 입력해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.022Z"
+    },
+    {
+      "name": "유효하지 않은 공부 시간 거절",
+      "request": {
+        "minutes": null
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "공부 시간을 입력해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.036Z"
+    },
+    {
+      "name": "유효하지 않은 공부 시간 거절",
+      "request": {
+        "minutes": "NaN"
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "시간은 범위 안의 숫자로 입력해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.049Z"
+    },
+    {
+      "name": "유효하지 않은 공부 시간 거절",
+      "request": {
+        "minutes": -1
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "시간은 범위 안의 숫자로 입력해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.056Z"
+    },
+    {
+      "name": "유효하지 않은 공부 시간 거절",
+      "request": {
+        "minutes": 1441
+      },
+      "response": {
+        "status": 400,
+        "body": {
+          "error": "시간은 범위 안의 숫자로 입력해 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.065Z"
+    },
+    {
+      "name": "2일차 이전 규칙 변경 거절",
+      "request": {
+        "action": "change_rule"
+      },
+      "response": {
+        "status": 409,
+        "body": {
+          "error": "2일차 기록 다음 날, 3일차 기록을 넣기 전에 바꿔 주세요."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.073Z"
+    },
+    {
+      "name": "전체 자료 내보내기에 인증 값 없음",
+      "request": {
+        "method": "GET",
+        "path": "/api/state?export=1"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "plan": true,
+          "tasks": 1,
+          "authFields": false
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.082Z"
+    },
+    {
+      "name": "비밀번호 변경 성공",
+      "request": {
+        "action": "change_password",
+        "password": "[가림]",
+        "newPassword": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.297Z"
+    },
+    {
+      "name": "비밀번호 변경 후 기존 세션 거절",
+      "request": {
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.320Z"
+    },
+    {
+      "name": "비밀번호 변경 후 기존 세션 거절",
+      "request": {
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.329Z"
+    },
+    {
+      "name": "계정 삭제 성공",
+      "request": {
+        "action": "delete_account",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.461Z"
+    },
+    {
+      "name": "로컬 계정 삭제 후 계정·자료 행 제거 확인",
+      "request": {
+        "fixture": "LOCAL_DB_READ_ONLY"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "accountRows": 0,
+          "orphanDiaryRows": 0
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.461Z"
+    },
+    {
+      "name": "계정 삭제 후 세션 거절",
+      "request": {
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.468Z"
+    },
+    {
+      "name": "본인 자료 삭제 성공",
+      "request": {
+        "action": "delete_task",
+        "id": 1675144673698500
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.478Z"
+    },
+    {
+      "name": "로그아웃 전 동일 요청 성공",
+      "request": {
+        "method": "GET",
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "taskCount": 0
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.488Z"
+    },
+    {
+      "name": "로그아웃",
+      "request": {
+        "action": "logout",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.493Z"
+    },
+    {
+      "name": "로그아웃 후 같은 세션 같은 요청 거절",
+      "request": {
+        "method": "GET",
+        "path": "/api/state",
+        "session": "[가림]"
+      },
+      "response": {
+        "status": 401,
+        "body": {
+          "error": "로그인이 필요합니다."
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.504Z"
+    },
+    {
+      "name": "시험 B 계정·자료 정리",
+      "request": {
+        "action": "delete_account",
+        "password": "[가림]"
+      },
+      "response": {
+        "status": 200,
+        "body": {
+          "ok": true
+        }
+      },
+      "checkedAt": "2026-10-06T00:58:21.629Z"
+    }
+  ]
+}

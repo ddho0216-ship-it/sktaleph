@@ -1,0 +1,12 @@
+{
+  "type": "SYNTHETIC_TEST_ONLY_NOT_ACTUAL_USE",
+  "checks": [
+    "five dates enforced by mocked clock",
+    "duplicate date upsert",
+    "rule after day2 before day3",
+    "baseline locked",
+    "total 150 average 30",
+    "T06 legacy import with remapped IDs"
+  ],
+  "passed": true
+}

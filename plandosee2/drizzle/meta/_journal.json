@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1789951342687,
+      "tag": "0000_glossy_taskmaster",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789974093849,
+      "tag": "0001_moaning_namora",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789978065108,
+      "tag": "0002_absent_hex",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1790045516770,
+      "tag": "0003_boring_whistler",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1790815726285,
+      "tag": "0005_account_auth",
+      "breakpoints": true
+    }
+  ]
+}
