@@ -1,0 +1,1 @@
+ALTER TABLE `tasks` ADD `planned_date` text DEFAULT '2026-09-21' NOT NULL;
