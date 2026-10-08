@@ -1,0 +1,978 @@
+{
+ "runAt": "2026-10-08T01:03:36.474Z",
+ "origin": "https://passkey-intro.passkey-site.workers.dev",
+ "browser": "Chrome 155.0.8059.39",
+ "authenticator": "Chrome 가상 인증기 (CTAP2, internal, 사용자 확인 켜짐)",
+ "results": [
+  {
+   "id": "C10",
+   "name": "로그인·등록 없이 첫 화면이 열린다",
+   "pass": true,
+   "detail": "GET / → 200"
+  },
+  {
+   "id": "C13",
+   "name": "공개 영역과 비공개 영역이 화면에서 구분된다",
+   "pass": true,
+   "detail": "위쪽 1번 소개 페이지(공개) / 구분선 문구 / 아래 보라 점선 칸(비공개)"
+  },
+  {
+   "id": "C11",
+   "name": "1번 과제에서 만든 소개 페이지에 이어 붙었고 1번의 공개 내용이 그대로 남아 있다",
+   "pass": true,
+   "detail": "배포 파일에서 추가분(비공개 영역 CSS·HTML·스크립트)을 빼면 1번 원본(16918바이트)과 글자 단위로 동일: true. 화면에 이름·기록 구역 유지"
+  },
+  {
+   "id": "C16",
+   "name": "로그인 없이 비공개 자료를 요청하면 거절된다",
+   "pass": true,
+   "detail": "items 401, users/:id/items 401, passkeys 401"
+  },
+  {
+   "id": "C17",
+   "name": "그 거절이 401 또는 403이다",
+   "pass": true,
+   "detail": "{\"error\":\"로그인이 필요합니다. 패스키로 들어가 주세요.\"}"
+  },
+  {
+   "id": "C15a",
+   "name": "잠긴 화면에 비공개 내용이 없다(화면 글자)",
+   "pass": true,
+   "detail": "비공개 목록 영역이 비어 있고 숨겨져 있음"
+  },
+  {
+   "id": "C25",
+   "name": "등록 중 취소하면 화면 안내가 나오고 계정·패스키가 저장되지 않는다",
+   "pass": true,
+   "detail": "화면: \"패스키 만들기가 취소됐습니다. 계정과 패스키는 저장되지 않았습니다. (서버가 낸 임시 질문은 5분 뒤 저절로 사라집니다.)\" / 계정 1→1, 패스키 1→1"
+  },
+  {
+   "id": "C19",
+   "name": "서버가 등록용 질문을 만들어 보내고 확인할 때까지 보관한다",
+   "pass": true,
+   "detail": "질문 GPBb-kOGavwS… 은 서버 표에 저장됐고 검증 시 한 번 소모됨"
+  },
+  {
+   "id": "C20",
+   "name": "등록 요청마다 질문 값이 다르다",
+   "pass": true,
+   "detail": "1번째 O0My0FskKdZGekgH… / 2번째 GPBb-kOGavwSsTvh…"
+  },
+  {
+   "id": "C21",
+   "name": "등록이 끝나면 서버에 공개키가 저장된다",
+   "pass": true,
+   "detail": "POST /api/register/verify → 200"
+  },
+  {
+   "id": "C22",
+   "name": "서버에 저장된 값이 공개키이며 비밀번호가 아니라는 설명이 함께 있다",
+   "pass": true,
+   "detail": "서버에 저장된 값은 공개키입니다. 공개키는 서명이 맞는지 확인하는 데만 쓰이며 비밀번호가 아닙니다. 개인키는 이 기기 밖으로 나오지 않아 서버로 전송되지 않았습니다."
+  },
+  {
+   "id": "C23",
+   "name": "개인키가 서버로 전송되지 않는다(등록 요청 본문 대조)",
+   "pass": true,
+   "detail": "기기에서 꺼낸 개인키(64자)가 전송된 어떤 요청 본문에도 없음. 등록 요청 본문의 칸: id, rawId, type, authenticatorAttachment, clientExtensionResults, response"
+  },
+  {
+   "id": "C24",
+   "name": "등록한 패스키에 사람이 알아볼 이름이 붙는다",
+   "pass": true,
+   "detail": "이름: 시험용 노트북 A1"
+  },
+  {
+   "id": "C26",
+   "name": "패스키를 저장한 곳을 구분해 보여 준다",
+   "pass": true,
+   "detail": "이 기기 자체에만 저장된 것으로 보입니다 (가상 인증기 사용 시험)"
+  },
+  {
+   "id": "C14",
+   "name": "비공개 영역에 들어 있는 항목이 세 개 이상이다",
+   "pass": true,
+   "detail": "A의 항목 3개: 프로젝트 메모 / 지원하려는 곳 / 스스로 쓰는 회고"
+  },
+  {
+   "id": "C32",
+   "name": "로그인 뒤 사람을 알아보는 수단이 무엇인지 적혀 있다",
+   "pass": true,
+   "detail": "세션 쿠키 pk_session(난수 32바이트), HttpOnly=true, SameSite=Lax. DB에는 해시만 저장"
+  },
+  {
+   "id": "C15",
+   "name": "패스키로 들어가지 않은 상태에서는 비공개 내용이 화면에 보이지 않는다",
+   "pass": true,
+   "detail": "로그아웃 직후 화면 전체 글자에 A의 메모 제목 3개가 없음"
+  },
+  {
+   "id": "C33",
+   "name": "로그아웃한 뒤 같은 쿠키값으로 다시 요청하면 거절된다",
+   "pass": true,
+   "detail": "옛 쿠키 rSLV…(가려짐, 43자) → 상태 401 {\"error\":\"로그인이 필요합니다. 패스키로 들어가 주세요.\"}"
+  },
+  {
+   "id": "C18",
+   "name": "로그인하지 않고 받은 페이지 소스 어디에도 비공개 내용이 없다",
+   "pass": true,
+   "detail": "받은 / 와 /app.js 전체 글자에 A의 메모 제목·내용이 없음"
+  },
+  {
+   "id": "C29",
+   "name": "서버가 저장해 둔 공개키로 서명을 확인한 뒤에만 통과시킨다",
+   "pass": true,
+   "detail": "POST /api/login/verify → 200"
+  },
+  {
+   "id": "C27",
+   "name": "로그인할 때도 서버가 매번 새 질문을 만들어 보낸다",
+   "pass": true,
+   "detail": "로그인 질문 2회 모두 서버가 생성"
+  },
+  {
+   "id": "C28",
+   "name": "로그인 요청마다 질문 값이 서로 다르다",
+   "pass": true,
+   "detail": "1회 4FqD-HjlBf4Y2NEp… / 2회 9LUnHOGseRZtPznG…"
+  },
+  {
+   "id": "C31",
+   "name": "이미 한 번 쓴 질문으로 다시 로그인하려는 요청이 거절된다",
+   "pass": true,
+   "detail": "재전송 → 400 {\"error\":\"이미 사용한 질문입니다. 새 질문으로 다시 시도해 주세요.\"}"
+  },
+  {
+   "id": "C30",
+   "name": "서명 확인에 성공한 요청과 실패한 요청이 나란히 기록된다",
+   "pass": true,
+   "detail": "성공: 상태 200 / 일부러 변조한 서명: 상태 401 \"서명 확인에 실패했습니다.\""
+  },
+  {
+   "id": "C34",
+   "name": "적어 둔 기록에서 세션·토큰 값이 가려져 있다",
+   "pass": true,
+   "detail": "기록에는 쿠키값을 넣지 않음. 표시 예: rSLV…(가려짐, 43자)"
+  },
+  {
+   "id": "C35",
+   "name": "화면 어디에도 비밀번호를 입력하는 칸이 없다",
+   "pass": true,
+   "detail": "비밀번호 입력 칸(type=password) 0개"
+  },
+  {
+   "id": "C42a",
+   "name": "같은 기기에 같은 계정의 패스키가 중복 등록되지 않는다",
+   "pass": true,
+   "detail": "같은 기기에서 두 번째 등록 시도 → InvalidStateError"
+  },
+  {
+   "id": "C42",
+   "name": "한 계정에 패스키가 두 개 등록되어 있다",
+   "pass": true,
+   "detail": "패스키 2개"
+  },
+  {
+   "id": "C43",
+   "name": "등록된 패스키 목록이 화면에 있고 이름과 등록 날짜가 보인다",
+   "pass": true,
+   "detail": "시험용 노트북 A1 (2026-10-08T01:02:58.891Z) | 시험용 휴대폰 A2 (2026-10-08T01:03:10.626Z)"
+  },
+  {
+   "id": "C45",
+   "name": "지운 패스키로는 더 이상 들어갈 수 없다는 기록이 있다",
+   "pass": true,
+   "detail": "지운 패스키로 로그인 → 상태 401 \"이 서버에 등록되지 않았거나 이미 지운 패스키입니다.\""
+  },
+  {
+   "id": "C44",
+   "name": "패스키 하나를 지운 뒤 남은 하나로 들어갈 수 있다",
+   "pass": true,
+   "detail": "남은 패스키 로그인 → 상태 200"
+  },
+  {
+   "id": "C46",
+   "name": "패스키가 하나도 남지 않게 되는 경우를 화면과 제출문에 적는다",
+   "pass": true,
+   "detail": "마지막 패스키 삭제 시도 → 409 \"마지막 패스키는 지울 수 없습니다. 지우면 이 계정으로 다시 들어올 방법이 없어집니다. 먼저 다른 패스키를 등록해 주세요.\" (남은 개수 1)"
+  },
+  {
+   "id": "C36",
+   "name": "패스키를 등록한 계정이 두 개이고 각각 서로 다른 비공개 내용이 있다",
+   "pass": true,
+   "detail": "A: [\"시험용 프로젝트 A-메모\",\"시험용 회사 A-1\",\"시험용 회고 A-회고\"]\nB: [\"시험용 프로젝트 B-메모\",\"시험용 회사 B-1\",\"시험용 회고 B-회고\"]"
+  },
+  {
+   "id": "C37",
+   "name": "A 패스키로 들어가 B의 비공개 자료를 읽으려는 요청과 그 거절 응답이 있다",
+   "pass": true,
+   "detail": "GET /api/users/<B>/items (A 로그인) → 403 {\"error\":\"다른 사람의 비공개 자료는 읽을 수 없습니다.\"}"
+  },
+  {
+   "id": "C38",
+   "name": "반대 방향(B→A)도 똑같이 거절됐다는 기록이 있다",
+   "pass": true,
+   "detail": "GET /api/users/<A>/items (B 로그인) → 403 {\"error\":\"다른 사람의 비공개 자료는 읽을 수 없습니다.\"}"
+  },
+  {
+   "id": "C40",
+   "name": "주소나 요청 본문에 다른 계정을 적어 보낸 요청에도 내 자료만 돌아온다",
+   "pass": true,
+   "detail": "?owner=<B> 요청 → 응답 주인 \"시험계정A\", 항목 시험용 프로젝트 A-메모, 시험용 회사 A-1, 시험용 회고 A-회고\n본문 owner=<B> 로 메모 추가 → 201 (A에 저장됨)\nB의 메모 지우기 시도 → 404 {\"error\":\"내 자료 중에 없습니다.\"}"
+  },
+  {
+   "id": "C39",
+   "name": "거절 앞뒤로 반대편의 자료 건수가 같다는 기록이 있다",
+   "pass": true,
+   "detail": "거절 전 A 3건/B 3건 → 거절·시도 후 A 3건/B 3건"
+  },
+  {
+   "id": "C41",
+   "name": "거절을 만드는 소스의 위치가 적혀 있다",
+   "pass": true,
+   "detail": "src/worker.mjs 의 GET /api/users/:id/items (mm[1] !== me.id → 403), requireUser() 의 세션 확인, items 조회 시 WHERE user_id=세션 사용자"
+  }
+ ],
+ "requests": [
+  {
+   "tag": "익명",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "익명",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 401,
+   "reqBody": null,
+   "resBody": "{\"error\":\"로그인이 필요합니다. 패스키로 들어가 주세요.\"}"
+  },
+  {
+   "tag": "익명",
+   "method": "GET",
+   "path": "/api/users/00000000-0000-0000-0000-000000000000/items",
+   "status": 401,
+   "reqBody": null,
+   "resBody": "{\"error\":\"로그인이 필요합니다. 패스키로 들어가 주세요.\"}"
+  },
+  {
+   "tag": "익명",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 401,
+   "reqBody": null,
+   "resBody": "{\"error\":\"로그인이 필요합니다. 패스키로 들어가 주세요.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/options",
+   "status": 200,
+   "reqBody": "{\"name\":\"시험계정A\",\"passkeyName\":\"시험용 노트북 A1\"}",
+   "resBody": "{\"challenge\":\"O0My0FskKdZGekgH3khgtxWBAIphraH31JbCyuPtlA0\",\"rp\":{\"name\":\"나의 소개 페이지\",\"id\":\"passkey-intro.passkey-site.workers.dev\"},\"user\":{\"id\":\"USmc2rO-qSISbd9HAXUKL0JJZDYfNxHpmCVIvyJF_4E\",\"name\":\"시험계정A\",\"displayName\":\"시험계정A\"},\"pubKeyCredParams\":[{\"alg\":-8,\"type\":\"public-key\"},{\"alg\":-7,\"type\":\"public-key\"},{\"alg\":-257,\"type\":\"public-key\"}],\"timeout\":60000,\"attestation\":\"none\",\"excludeCredentials\":[],\"authenticatorSelection\":{\"residentKey\":\"required\",\"userVerification\":\"preferred\",\"requireResidentKey\":true},\"extensions\":{\"credProps\":true},\"hints\":[]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/options",
+   "status": 200,
+   "reqBody": "{\"name\":\"시험계정A\",\"passkeyName\":\"시험용 노트북 A1\"}",
+   "resBody": "{\"challenge\":\"GPBb-kOGavwSsTvhZ1aNihr1ys-bM6D686p8yzUhITo\",\"rp\":{\"name\":\"나의 소개 페이지\",\"id\":\"passkey-intro.passkey-site.workers.dev\"},\"user\":{\"id\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\",\"name\":\"시험계정A\",\"displayName\":\"시험계정A\"},\"pubKeyCredParams\":[{\"alg\":-8,\"type\":\"public-key\"},{\"alg\":-7,\"type\":\"public-key\"},{\"alg\":-257,\"type\":\"public-key\"}],\"timeout\":60000,\"attestation\":\"none\",\"excludeCredentials\":[],\"authenticatorSelection\":{\"residentKey\":\"required\",\"userVerification\":\"preferred\",\"requireResidentKey\":true},\"extensions\":{\"credProps\":true},\"hints\":[]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"authenticatorAttachment\":\"platform\",\"clientExtensionResults\":{\"credProps\":{\"rk\":true}},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiR1BCYi1rT0dhdndTc1R2aFoxYU5paHIxeXMtYk02RDY4NnA4eXpVaElUbyIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"attestationObject\":\"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViB9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypdFAAAAAQECAwQFBgcIAQIDBAUGBwgAIJXpktmNAHzVVZo1Ac5waPwJM_IiaIU1otZph9FhIeHHpAEBAycgBiFYIBZ9OgMGmtm9vlmJzVBJsC4pKNTw5Xc5cbVOKs-GERCY\",\"transports\":[\"internal\"]}}}",
+   "resBody": "{\"ok\":true,\"newAccount\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkey\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\"},\"storedOnServer\":{\"publicKey\":\"pAEBAycgBiFYIBZ9OgMGmtm9vlmJzVBJsC4pKNTw5Xc5cbVOKs-GERCY\",\"credentialId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\"},\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\",\"explanation\":\"서버에 저장된 값은 공개키입니다. 공개키는 서명이 맞는지 확인하는 데만 쓰이며 비밀번호가 아닙니다. 개인키는 이 기기 밖으로 나오지 않아 서버로 전송되지 않았습니다.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\"}",
+   "resBody": "{\"ok\":true,\"id\":9}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"}}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\"}",
+   "resBody": "{\"ok\":true,\"id\":10}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"}}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\"}",
+   "resBody": "{\"ok\":true,\"id\":11}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"}}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"}}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/logout",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"ok\":true}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"4FqD-HjlBf4Y2NEp1n5qRTcpBDahjDSncqVnGWAA9nM\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiNEZxRC1IamxCZjRZMk5FcDFuNXFSVGNwQkRhaGpEU25jcVZuR1dBQTluTSIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAAAg\",\"signature\":\"ebBAH_VwcyyllNCKe-lOF6xsEm_-kXPFUzmFEsre2c3gN2vPeReZFqv98J_8VOYms20IiYxDosKy-d80UceXAw\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"ok\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkeyName\":\"시험용 노트북 A1\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/logout",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"ok\":true}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"9LUnHOGseRZtPznG5ANyzbSH9Rtew-pbbPiu9s7AKHo\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiOUxVbkhPR3NlUlp0UHpuRzVBTnl6YlNIOVJ0ZXctcGJiUGl1OXM3QUtIbyIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAAAw\",\"signature\":\"KGApeScke7SlJAOvewuGGwAJWLdECxckIaKLcJ2JhzZ5mJl2IcCsMJehSmUO-kLK_nDrlJ7a1MbtrZZhhXW-CQ\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"ok\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkeyName\":\"시험용 노트북 A1\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/logout",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"ok\":true}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"faBkbT2SJ3gAfxQjsvzEnMmhicCNAHC8SMt-KZaPXQY\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 401,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiZmFCa2JUMlNKM2dBZnhRanN2ekVuTW1oaWNDTkFIQzhTTXQtS1phUFhRWSIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAABA\",\"signature\":\"CVP9VZfVMG0fLs78HvJZnCqLIeuc3blFElSKTiv91vGY5WsL9vOfYQ-ZhGcbdo34ofoxusXpUcy12tk39xnn8A\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"error\":\"서명 확인에 실패했습니다.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"sO3eO8fl-xsasBl6u0lDd9TmfyAAE1M-Hgt09l1T2r0\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoic08zZU84ZmwteHNhc0JsNnUwbERkOVRtZnlBQUUxTS1IZ3QwOWwxVDJyMCIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2UsIm90aGVyX2tleXNfY2FuX2JlX2FkZGVkX2hlcmUiOiJkbyBub3QgY29tcGFyZSBjbGllbnREYXRhSlNPTiBhZ2FpbnN0IGEgdGVtcGxhdGUuIFNlZSBodHRwczovL2dvby5nbC95YWJQZXgifQ\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAABQ\",\"signature\":\"ifPPfyfaHwE0UYgmLYbeE-4lDtUvT_ZYnC3VUh3sof1GRfkDpiXcAojtnG4q0TNpns8CR4Xgx1F_R_fDD6BwAg\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"ok\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkeyName\":\"시험용 노트북 A1\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/options",
+   "status": 200,
+   "reqBody": "{\"passkeyName\":\"dup\"}",
+   "resBody": "{\"challenge\":\"Y2h-YB8qbiLNIyBDCJRTh2nI9Bgb1bKEFNeW5wGzFbY\",\"rp\":{\"name\":\"나의 소개 페이지\",\"id\":\"passkey-intro.passkey-site.workers.dev\"},\"user\":{\"id\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\",\"name\":\"시험계정A\",\"displayName\":\"시험계정A\"},\"pubKeyCredParams\":[{\"alg\":-8,\"type\":\"public-key\"},{\"alg\":-7,\"type\":\"public-key\"},{\"alg\":-257,\"type\":\"public-key\"}],\"timeout\":60000,\"attestation\":\"none\",\"excludeCredentials\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"transports\":[\"internal\"],\"type\":\"public-key\"}],\"authenticatorSelection\":{\"residentKey\":\"required\",\"userVerification\":\"preferred\",\"requireResidentKey\":true},\"extensions\":{\"credProps\":true},\"hints\":[]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"}}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/options",
+   "status": 200,
+   "reqBody": "{\"passkeyName\":\"시험용 휴대폰 A2\"}",
+   "resBody": "{\"challenge\":\"1qqGP58_U43cwZJzpwN_DYgmE27hgsz1Izx3hrWsqm4\",\"rp\":{\"name\":\"나의 소개 페이지\",\"id\":\"passkey-intro.passkey-site.workers.dev\"},\"user\":{\"id\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\",\"name\":\"시험계정A\",\"displayName\":\"시험계정A\"},\"pubKeyCredParams\":[{\"alg\":-8,\"type\":\"public-key\"},{\"alg\":-7,\"type\":\"public-key\"},{\"alg\":-257,\"type\":\"public-key\"}],\"timeout\":60000,\"attestation\":\"none\",\"excludeCredentials\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"transports\":[\"internal\"],\"type\":\"public-key\"}],\"authenticatorSelection\":{\"residentKey\":\"required\",\"userVerification\":\"preferred\",\"requireResidentKey\":true},\"extensions\":{\"credProps\":true},\"hints\":[]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/register/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"rawId\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"type\":\"public-key\",\"authenticatorAttachment\":\"platform\",\"clientExtensionResults\":{\"credProps\":{\"rk\":true}},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiMXFxR1A1OF9VNDNjd1pKenB3Tl9EWWdtRTI3aGdzejFJengzaHJXc3FtNCIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"attestationObject\":\"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViB9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypdFAAAAAQECAwQFBgcIAQIDBAUGBwgAIOHGqX1OxlDOBCwi8RijKHGZ85KtFrRs0Lj4pQjav0CnpAEBAycgBiFYICqzI3nAsmHLxfXj1UZmX-fpsPUDhoC-Z6qFZcJHWDgi\",\"transports\":[\"internal\"]}}}",
+   "resBody": "{\"ok\":true,\"newAccount\":false,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkey\":{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\"},\"storedOnServer\":{\"publicKey\":\"pAEBAycgBiFYICqzI3nAsmHLxfXj1UZmX-fpsPUDhoC-Z6qFZcJHWDgi\",\"credentialId\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\"},\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\",\"explanation\":\"서버에 저장된 값은 공개키입니다. 공개키는 서명이 맞는지 확인하는 데만 쓰이며 비밀번호가 아닙니다. 개인키는 이 기기 밖으로 나오지 않아 서버로 전송되지 않았습니다.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"},{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"name\":\"시험용 노트북 A1\",\"createdAt\":\"2026-10-08T01:02:58.891Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"},{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "DELETE",
+   "path": "/api/passkeys/lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"ok\":true,\"remaining\":1}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/logout",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"ok\":true}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"cRlIK9es8RrzREKIXLKe1n2Y5pZPgvtJThRS81F6zm0\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 401,
+   "reqBody": "{\"response\":{\"id\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"rawId\":\"lemS2Y0AfNVVmjUBznBo_Akz8iJohTWi1mmH0WEh4cc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiY1JsSUs5ZXM4UnJ6UkVLSVhMS2UxbjJZNXBaUGd2dEpUaFJTODFGNnptMCIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2UsIm90aGVyX2tleXNfY2FuX2JlX2FkZGVkX2hlcmUiOiJkbyBub3QgY29tcGFyZSBjbGllbnREYXRhSlNPTiBhZ2FpbnN0IGEgdGVtcGxhdGUuIFNlZSBodHRwczovL2dvby5nbC95YWJQZXgifQ\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAAAg\",\"signature\":\"1H96qz8cayx2Tkk2ghafRJ3F9Atuum1ZSynWxn4YGveSmFctjLwzsLFoVdjDZVERObZAzklJGd0gX2H5XXbVBg\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"error\":\"이 서버에 등록되지 않았거나 이미 지운 패스키입니다.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/options",
+   "status": 200,
+   "reqBody": "{}",
+   "resBody": "{\"rpId\":\"passkey-intro.passkey-site.workers.dev\",\"challenge\":\"joJNHKFtbX6Zcg0_u2QsvwXMDvFWmKPP064X3GhzNb0\",\"allowCredentials\":[],\"timeout\":60000,\"userVerification\":\"preferred\"}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/login/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"rawId\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"type\":\"public-key\",\"clientExtensionResults\":{},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiam9KTkhLRnRiWDZaY2cwX3UyUXN2d1hNRHZGV21LUFAwNjRYM0doek5iMCIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"authenticatorData\":\"9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypcFAAAAAg\",\"signature\":\"ZkDkungMiZM7qfQ_j85qBbhw-puZMfiEymK5Bx6ebYv3K-WDSK1KZz3KdSjBpntHdWegAgcIyciPnOZa2TbyCw\",\"userHandle\":\"zey3dSzmJ5Wq6lfkZI2Lg4GALD0DvI-2RIpF6_cmRXw\"}}}",
+   "resBody": "{\"ok\":true,\"user\":{\"id\":\"4d61b2a2-254e-425f-a135-202c7d1b679b\",\"name\":\"시험계정A\"},\"passkeyName\":\"시험용 휴대폰 A2\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "DELETE",
+   "path": "/api/passkeys/4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc",
+   "status": 409,
+   "reqBody": null,
+   "resBody": "{\"error\":\"마지막 패스키는 지울 수 없습니다. 지우면 이 계정으로 다시 들어올 방법이 없어집니다. 먼저 다른 패스키를 등록해 주세요.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "DELETE",
+   "path": "/api/passkeys/4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc",
+   "status": 409,
+   "reqBody": null,
+   "resBody": "{\"error\":\"마지막 패스키는 지울 수 없습니다. 지우면 이 계정으로 다시 들어올 방법이 없어집니다. 먼저 다른 패스키를 등록해 주세요.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"4capfU7GUM4ELCLxGKMocZnzkq0WtGzQuPilCNq_QKc\",\"name\":\"시험용 휴대폰 A2\",\"createdAt\":\"2026-10-08T01:03:10.626Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":false}"
+  },
+  {
+   "tag": "B",
+   "method": "POST",
+   "path": "/api/register/options",
+   "status": 200,
+   "reqBody": "{\"name\":\"시험계정B\",\"passkeyName\":\"시험용 노트북 B1\"}",
+   "resBody": "{\"challenge\":\"UNP6EwfDxlb5g_lt_XOpxpseiv8o-3jX6kGVkv4Xdbk\",\"rp\":{\"name\":\"나의 소개 페이지\",\"id\":\"passkey-intro.passkey-site.workers.dev\"},\"user\":{\"id\":\"Q8t7HV_5P_3k7HQ9UjJTgnZgwN2SNEdN0RuaF1IBGQU\",\"name\":\"시험계정B\",\"displayName\":\"시험계정B\"},\"pubKeyCredParams\":[{\"alg\":-8,\"type\":\"public-key\"},{\"alg\":-7,\"type\":\"public-key\"},{\"alg\":-257,\"type\":\"public-key\"}],\"timeout\":60000,\"attestation\":\"none\",\"excludeCredentials\":[],\"authenticatorSelection\":{\"residentKey\":\"required\",\"userVerification\":\"preferred\",\"requireResidentKey\":true},\"extensions\":{\"credProps\":true},\"hints\":[]}"
+  },
+  {
+   "tag": "B",
+   "method": "POST",
+   "path": "/api/register/verify",
+   "status": 200,
+   "reqBody": "{\"response\":{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"rawId\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"type\":\"public-key\",\"authenticatorAttachment\":\"platform\",\"clientExtensionResults\":{\"credProps\":{\"rk\":true}},\"response\":{\"clientDataJSON\":\"eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiVU5QNkV3ZkR4bGI1Z19sdF9YT3B4cHNlaXY4by0zalg2a0dWa3Y0WGRiayIsIm9yaWdpbiI6Imh0dHBzOi8vcGFzc2tleS1pbnRyby5wYXNza2V5LXNpdGUud29ya2Vycy5kZXYiLCJjcm9zc09yaWdpbiI6ZmFsc2V9\",\"attestationObject\":\"o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViB9_rKX3uIuK1RpBqKiDf3sJR3vyh85uefz5IhpPTeypdFAAAAAQECAwQFBgcIAQIDBAUGBwgAIKAQnEfaKjHIEivNHYpqBAcOdRUrizKbJ7DpTp_oeh0cpAEBAycgBiFYINxaSnVLlQMTxMTfR2P5h5MSNeBwV7rwqcoEFnL8VK2E\",\"transports\":[\"internal\"]}}}",
+   "resBody": "{\"ok\":true,\"newAccount\":true,\"user\":{\"id\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"name\":\"시험계정B\"},\"passkey\":{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"name\":\"시험용 노트북 B1\",\"createdAt\":\"2026-10-08T01:03:17.894Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\"},\"storedOnServer\":{\"publicKey\":\"pAEBAycgBiFYINxaSnVLlQMTxMTfR2P5h5MSNeBwV7rwqcoEFnL8VK2E\",\"credentialId\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\"},\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\",\"explanation\":\"서버에 저장된 값은 공개키입니다. 공개키는 서명이 맞는지 확인하는 데만 쓰이며 비밀번호가 아닙니다. 개인키는 이 기기 밖으로 나오지 않아 서버로 전송되지 않았습니다.\"}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"name\":\"시험용 노트북 B1\",\"createdAt\":\"2026-10-08T01:03:17.894Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\"}",
+   "resBody": "{\"ok\":true,\"id\":12}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"name\":\"시험계정B\"}}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[{\"id\":12,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\",\"created_at\":\"2026-10-08T01:03:18.859Z\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"name\":\"시험용 노트북 B1\",\"createdAt\":\"2026-10-08T01:03:17.894Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 B-1\",\"body\":\"가상의 회사 B\"}",
+   "resBody": "{\"ok\":true,\"id\":13}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"name\":\"시험계정B\"}}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[{\"id\":12,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\",\"created_at\":\"2026-10-08T01:03:18.859Z\"},{\"id\":13,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 B-1\",\"body\":\"가상의 회사 B\",\"created_at\":\"2026-10-08T01:03:19.479Z\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"name\":\"시험용 노트북 B1\",\"createdAt\":\"2026-10-08T01:03:17.894Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 B-회고\",\"body\":\"B의 가상 회고\"}",
+   "resBody": "{\"ok\":true,\"id\":14}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"name\":\"시험계정B\"}}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[{\"id\":12,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\",\"created_at\":\"2026-10-08T01:03:18.859Z\"},{\"id\":13,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 B-1\",\"body\":\"가상의 회사 B\",\"created_at\":\"2026-10-08T01:03:19.479Z\"},{\"id\":14,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 B-회고\",\"body\":\"B의 가상 회고\",\"created_at\":\"2026-10-08T01:03:20.102Z\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/session",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"loggedIn\":true,\"user\":{\"id\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"name\":\"시험계정B\"}}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/passkeys",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"passkeys\":[{\"id\":\"oBCcR9oqMcgSK80dimoEBw51FSuLMpsnsOlOn-h6HRw\",\"name\":\"시험용 노트북 B1\",\"createdAt\":\"2026-10-08T01:03:17.894Z\",\"deviceType\":\"singleDevice\",\"backedUp\":false,\"attachment\":\"platform\",\"storageGuess\":\"이 기기 자체에만 저장된 것으로 보입니다\"}]}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[{\"id\":12,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\",\"created_at\":\"2026-10-08T01:03:18.859Z\"},{\"id\":13,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 B-1\",\"body\":\"가상의 회사 B\",\"created_at\":\"2026-10-08T01:03:19.479Z\"},{\"id\":14,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 B-회고\",\"body\":\"B의 가상 회고\",\"created_at\":\"2026-10-08T01:03:20.102Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/users/03b25f4e-45ca-495f-bcac-87676f90be60/items",
+   "status": 403,
+   "reqBody": null,
+   "resBody": "{\"error\":\"다른 사람의 비공개 자료는 읽을 수 없습니다.\"}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/users/4d61b2a2-254e-425f-a135-202c7d1b679b/items",
+   "status": 403,
+   "reqBody": null,
+   "resBody": "{\"error\":\"다른 사람의 비공개 자료는 읽을 수 없습니다.\"}"
+  },
+  {
+   "tag": "A",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정A\",\"items\":[{\"id\":9,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 A-메모\",\"body\":\"로그인 화면 다듬기(만들어 넣은 내용)\",\"created_at\":\"2026-10-08T01:03:01.600Z\"},{\"id\":10,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 A-1\",\"body\":\"가상의 회사 목록 1번\",\"created_at\":\"2026-10-08T01:03:02.232Z\"},{\"id\":11,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 A-회고\",\"body\":\"이번 주에 패스키를 처음 써 봄(가상 내용)\",\"created_at\":\"2026-10-08T01:03:02.867Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "POST",
+   "path": "/api/private/items",
+   "status": 201,
+   "reqBody": "{\"kind\":\"프로젝트 메모\",\"title\":\"B 계정에 쓰려는 시도\",\"body\":\"x\",\"owner\":\"03b25f4e-45ca-495f-bcac-87676f90be60\",\"userId\":\"03b25f4e-45ca-495f-bcac-87676f90be60\"}",
+   "resBody": "{\"ok\":true,\"id\":15}"
+  },
+  {
+   "tag": "B",
+   "method": "GET",
+   "path": "/api/private/items",
+   "status": 200,
+   "reqBody": null,
+   "resBody": "{\"owner\":\"시험계정B\",\"items\":[{\"id\":12,\"kind\":\"프로젝트 메모\",\"title\":\"시험용 프로젝트 B-메모\",\"body\":\"B만의 가상 메모\",\"created_at\":\"2026-10-08T01:03:18.859Z\"},{\"id\":13,\"kind\":\"지원하려는 곳\",\"title\":\"시험용 회사 B-1\",\"body\":\"가상의 회사 B\",\"created_at\":\"2026-10-08T01:03:19.479Z\"},{\"id\":14,\"kind\":\"스스로 쓰는 회고\",\"title\":\"시험용 회고 B-회고\",\"body\":\"B의 가상 회고\",\"created_at\":\"2026-10-08T01:03:20.102Z\"}]}"
+  },
+  {
+   "tag": "A",
+   "method": "DELETE",
+   "path": "/api/private/items/12",
+   "status": 404,
+   "reqBody": null,
+   "resBody": "{\"error\":\"내 자료 중에 없습니다.\"}"
+  }
+ ],
+ "accounts": {
+  "A": "4d61b2a2-254e-425f-a135-202c7d1b679b",
+  "B": "03b25f4e-45ca-495f-bcac-87676f90be60"
+ }
+}

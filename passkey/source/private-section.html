@@ -1,0 +1,64 @@
+<!-- ===== [과제 8 추가] 여기서부터 비공개 영역. 위쪽은 1번 과제 원본 그대로입니다 ===== -->
+<section id="private" class="pk-wrap">
+  <div class="pk-divider" role="separator">
+    <span>▲ 위쪽은 누구나 볼 수 있는 <b>공개 영역</b></span>
+    <span>▼ 아래는 패스키로 잠긴 <b>비공개 영역</b></span>
+  </div>
+
+  <div id="private-area" class="pk-zone" aria-label="비공개 영역">
+    <span class="pk-label">🔒 비공개 영역 · 패스키로 잠겨 있어요</span>
+
+    <div id="locked-view">
+      <div class="pk-lockbox">
+        <div class="pk-big">🔒</div>
+        <p><strong>잠겨 있습니다.</strong> 패스키로 들어가면 나만의 메모가 열립니다.<br>
+        <span class="pk-muted">이 칸의 내용은 로그인 전에는 서버가 보내 주지 않습니다. 비밀번호는 만들지 않습니다.</span></p>
+        <div class="pk-row" style="justify-content:center"><button class="pk-primary" id="btn-login">🔑 패스키로 들어가기</button></div>
+      </div>
+      <hr class="pk-sep">
+      <div class="pk-card">
+        <strong>처음이신가요? 패스키 만들기</strong>
+        <div class="pk-grid2">
+          <div><label for="reg-name">내 이름(표시용, 2~20자)</label><input id="reg-name" maxlength="20" placeholder="예: 나"></div>
+          <div><label for="reg-passkey-name">이 패스키의 이름(선택)</label><input id="reg-passkey-name" maxlength="30" placeholder="예: 내 노트북 지문"></div>
+        </div>
+        <div class="pk-row" style="margin-top:10px"><button id="btn-register">✨ 패스키 만들기</button></div>
+        <p class="pk-muted">만들 때 기기가 열쇠 한 쌍을 만들고, 서버에는 공개키만 저장됩니다. 개인키는 기기 밖으로 나가지 않습니다.</p>
+      </div>
+    </div>
+
+    <div id="open-view" hidden>
+      <div class="pk-row" style="justify-content:space-between">
+        <div><strong id="who"></strong> <span class="pk-muted">님의 비공개 자리</span></div>
+        <button id="btn-logout">로그아웃</button>
+      </div>
+
+      <div class="pk-card">
+        <strong>내 비공개 메모</strong> <span class="pk-muted" id="item-count"></span>
+        <div id="items"></div>
+        <hr class="pk-sep">
+        <div class="pk-grid2">
+          <div><label for="it-kind">종류</label>
+            <select id="it-kind"><option>프로젝트 메모</option><option>지원하려는 곳</option><option>스스로 쓰는 회고</option></select></div>
+          <div><label for="it-title">제목</label><input id="it-title" maxlength="60"></div>
+        </div>
+        <label for="it-body">내용</label><textarea id="it-body" rows="2" maxlength="500"></textarea>
+        <div class="pk-row" style="margin-top:8px"><button class="pk-primary" id="btn-add-item">메모 추가</button></div>
+        <p class="pk-muted">진짜 연락처나 신분증 번호 같은 개인정보는 적지 마세요. 만들어 넣은 내용이면 충분합니다.</p>
+      </div>
+
+      <div class="pk-card">
+        <strong>내 패스키 목록</strong>
+        <div id="passkeys"></div>
+        <div class="pk-row" style="margin-top:10px">
+          <input id="pk2-name" placeholder="새 패스키 이름 (예: 휴대폰)" style="max-width:260px" maxlength="30">
+          <button id="btn-add-passkey">➕ 패스키 하나 더 등록</button>
+        </div>
+        <p class="pk-muted">기기를 잃어버릴 때를 대비해 두 개 이상 등록해 두세요. 마지막 하나는 지울 수 없습니다(지우면 이 계정으로 들어올 방법이 없어지기 때문입니다).</p>
+      </div>
+    </div>
+
+    <div id="msg" class="pk-msg" role="status" aria-live="polite"></div>
+    <div id="stored" class="pk-card" hidden></div>
+  </div>
+</section>

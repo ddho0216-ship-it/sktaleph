@@ -1,0 +1,28 @@
+/* [과제 8 추가] 비공개 영역 전용 스타일 — 모든 이름에 pk- 를 붙여 1번 원본 스타일과 섞이지 않게 함 */
+#private .pk-divider { display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:13px; color:var(--muted); border-top:2px solid var(--line); padding-top:14px; margin-bottom:18px; }
+#private .pk-divider b { color:var(--ink); }
+#private .pk-zone { background:#faf5ff; border:3px dashed #7c3aed; border-radius:16px; padding:24px; }
+#private .pk-label { display:inline-block; font-size:13px; font-weight:800; padding:2px 10px; border-radius:999px; margin-bottom:12px; background:#ede9fe; color:#5b21b6; }
+#private button { font:inherit; font-size:14px; font-weight:700; padding:8px 14px; border-radius:8px; border:1px solid #7c3aed; background:#fff; color:#5b21b6; cursor:pointer; margin-top:6px; }
+#private button.pk-primary { background:#7c3aed; color:#fff; }
+#private button.pk-danger { border-color:#b91c1c; color:#b91c1c; }
+#private button:disabled { opacity:.5; cursor:not-allowed; }
+#private input, #private select, #private textarea { font:inherit; font-size:14px; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; width:100%; background:#fff; color:var(--ink); }
+#private label { display:block; font-size:14px; font-weight:700; margin:10px 0 4px; }
+#private .pk-row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+#private .pk-grid2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+#private .pk-card { background:#fff; border:1px solid #ddd6fe; border-radius:12px; padding:14px 16px; margin-top:12px; font-size:14px; }
+#private .pk-msg { margin-top:10px; padding:10px 12px; border-radius:8px; font-size:14px; display:none; white-space:pre-wrap; word-break:break-all; }
+#private .pk-msg.ok { display:block; background:#dcfce7; color:#14532d; }
+#private .pk-msg.err { display:block; background:#fee2e2; color:#7f1d1d; }
+#private .pk-msg.info { display:block; background:#e0f2fe; color:#0c4a6e; }
+#private .pk-item { border-top:1px solid #e9d5ff; padding:10px 0; }
+#private .pk-item:first-child { border-top:0; }
+#private .pk-kind { font-size:12px; font-weight:800; color:#6d28d9; }
+#private .pk-muted { color:var(--muted); font-size:13px; }
+#private code { background:#f1f5f9; padding:1px 5px; border-radius:4px; font-size:12px; word-break:break-all; }
+#private .pk-lockbox { text-align:center; padding:12px 0; }
+#private .pk-big { font-size:40px; }
+#private hr.pk-sep { border:0; border-top:1px solid #e9d5ff; margin:18px 0; }
+#private [hidden] { display:none !important; }
+@media (max-width:640px){ #private .pk-grid2 { grid-template-columns:1fr; } }

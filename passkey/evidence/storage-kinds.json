@@ -1,0 +1,33 @@
+{
+ "runAt": "2026-10-08T01:04:20.525Z",
+ "base": "https://passkey-intro.passkey-site.workers.dev",
+ "results": [
+  {
+   "kind": "동기화되는 패스키 (구글 비밀번호 관리자 같은 것)",
+   "deviceType": "multiDevice",
+   "backedUp": true,
+   "attachment": "platform",
+   "shown": "비밀번호 관리자(구글·애플 등)에 동기화되어 저장된 것으로 보입니다",
+   "expectedKeyword": "동기화",
+   "pass": true
+  },
+  {
+   "kind": "이 기기에만 저장되는 패스키 (Windows Hello 같은 것)",
+   "deviceType": "singleDevice",
+   "backedUp": false,
+   "attachment": "platform",
+   "shown": "이 기기 자체에만 저장된 것으로 보입니다",
+   "expectedKeyword": "이 기기 자체",
+   "pass": true
+  },
+  {
+   "kind": "보안 키 (USB)",
+   "deviceType": "singleDevice",
+   "backedUp": false,
+   "attachment": "cross-platform",
+   "shown": "보안 키(또는 다른 기기)에 저장된 것으로 보입니다",
+   "expectedKeyword": "보안 키",
+   "pass": true
+  }
+ ]
+}
